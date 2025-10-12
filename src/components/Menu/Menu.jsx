@@ -4,8 +4,7 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthProvider'; 
 import { useTheme } from '../../context/ThemeContext'; 
-import styles from'./Menu.module.css'; 
-import LogoImage from '../../assets/logo-login.png'; 
+import styles from'./Menu.module.css';
 
 const Menu = ({ currentScreen }) => {
     // A propriedade 'name' é acessada via 'user' do useAuth()
@@ -59,7 +58,7 @@ const Menu = ({ currentScreen }) => {
                 
                 {/* 1. Logo (Esquerda) */}
                 <Link to="/" className={styles.logolink}>
-                    <img src={LogoImage} alt="Tron Analytics Logo" className={styles.logoimage} />
+                    <img src="/logo-login.png" alt="Tron Analytics Logo" className={styles.logoimage} />
                 </Link>
 
                 {/* 2. Seção do Usuário/Role: SÓ FICA AQUI PARA MOBILE */}

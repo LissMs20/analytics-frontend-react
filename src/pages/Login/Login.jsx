@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { useAuth } from '../../context/AuthProvider';
 import { useNavigate } from 'react-router-dom';
 import styles from '../Login/Login.module.css';
-import logo from "../../assets/logo-login.png";
 
 const Login = () => {
     const [username, setUsername] = useState('');
@@ -26,7 +25,7 @@ const Login = () => {
     return (
         <div className={styles.loginBackground}>
         <div className={styles.logoContainer}>
-            <img src={logo} alt="TRON Analytics" className={styles.loginLogo} />
+            <img src="/logo-login.png" alt="TRON Analytics" className={styles.loginLogo} />
         </div>
         <div className={styles.loginCard}>
             <h1 className={styles.loginTitle}>Acesso ao Sistema</h1>
