@@ -1,0 +1,402 @@
+/* src/components/Menu/Menu.module.css */
+
+/* O link que envolve a logo */
+.logolink {
+  margin-right: 30px;
+  display: flex;
+  align-items: center;
+}
+
+.logoimage {
+  height: 38px;
+  width: auto;
+  transition: opacity 0.3s ease;
+}
+
+/* 1. Header (Classe de alto nível) */
+.headermenu {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 60px;
+  /* Fundo do Menu: Mapeado para o Azul Profundo com gradiente suave */
+  background: linear-gradient(90deg, #001837, rgba(10, 15, 28, 0.9));
+  color: #ffffff;
+  padding: 0 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  /* Sombra: Mapeada para o Azul Brilhante */
+  box-shadow: 0 4px 12px rgba(36, 164, 255, 0.15);
+  /* Borda Inferior: Mapeada para o Azul Brilhante */
+  border-bottom: 1px solid rgba(36, 164, 255, 0.2);
+  z-index: 1000;
+}
+
+/* Container que em mobile contém Logo, User Info, Hamburguer. Em desktop, só a Logo. */
+.topbar {
+  display: flex;
+  align-items: center;
+  flex-grow: 0;
+}
+
+/* Container dos links de navegação */
+.navlinks {
+  display: flex;
+  flex-grow: 1;
+  gap: 20px;
+  padding-left: 20px;
+  transition: transform 0.3s ease-in-out;
+}
+
+/* Seção do usuário (Nome/Role - Fica na topbar ao lado do logo) */
+.usersection {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  flex-shrink: 0;
+  display: none;
+}
+
+/* Garante que o Nome/Role apareça corretamente no desktop (já que movemos o LogoutButton para usersectionDesktop) */
+.userinfo {
+  font-size: 0.9em;
+  /* Cor Info do Usuário: Mapeado para Cinza Suave */
+  color: #e8e8e8;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+/* NOVO: Seção apenas para o botão Sair na barra superior em desktop */
+.usersectionDesktop {
+  display: none;
+  align-items: center;
+  gap: 15px;
+  flex-shrink: 0;
+  margin-left: 20px;
+}
+
+/* Botão de logout */
+.logoutbutton {
+  padding: 8px 16px;
+  background: transparent;
+  /* Cor do Texto e Borda de Logout (Mantida a cor de Aviso/Erro) */
+  color: #F87171;
+  border: 1px solid #F87171;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.logoutbutton:hover {
+  /* Fundo de Hover e Sombra de Logout (Mantida a cor de Aviso/Erro) */
+  background: rgba(248, 113, 113, 0.1);
+  box-shadow: 0 0 10px rgba(248, 113, 113, 0.6);
+}
+
+/* NOVO: Estilo para o botão "Sair" no final do menu lateral (Mobile) */
+.menubottomsection {
+  margin-top: auto;
+  width: 100%;
+  padding-top: 20px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  text-align: center;
+}
+
+.menubottomsection .logoutbutton {
+  width: 90%;
+}
+
+
+/* 2. Novo seletor para o link em si */
+.navlink {
+  /* Cor Padrão do Link: Mapeado para Cinza Suave */
+  color: #e8e8e8;
+  text-decoration: none;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  position: relative;
+  transition: color 0.3s ease, text-shadow 0.3s ease, border-bottom 0.3s ease;
+}
+
+.navlink:hover {
+  /* Cor de Hover: Mapeado para Azul Brilhante */
+  color: #24a4ff;
+  /* Sombra de Hover: Mapeado para Azul Brilhante */
+  text-shadow: 0 0 8px rgba(36, 164, 255, 0.8);
+}
+
+/* Classe de tela ativa */
+.active-screen {
+  /* Cor de Tela Ativa: Mapeado para Azul Brilhante */
+  color: #24a4ff;
+  font-weight: 700;
+  /* Sombra de Tela Ativa: Mapeado para Azul Brilhante */
+  text-shadow: 0 0 12px rgba(36, 164, 255, 1);
+  padding-bottom: 3px;
+  /* Borda de Tela Ativa: Mapeado para Azul Brilhante */
+  border-bottom: 2px solid #24a4ff;
+}
+
+/* Estilos de cor para as roles */
+.role-admin {
+  /* Mapeado para Verde Esmeralda */
+  color: #00b37c;
+  font-weight: 700;
+}
+
+.role-assistencia {
+  /* Cor Padrão Mantida: Amarelo/Aviso */
+  color: #FBBF24;
+  font-weight: 700;
+}
+
+.role-producao {
+  /* Cor Padrão Mantida: Roxo/Secundário */
+  color: #5551d1;
+  font-weight: 700;
+}
+
+.loginlink {
+  /* Cor do Link de Login: Mapeado para Azul Brilhante */
+  color: #24a4ff;
+  text-decoration: none;
+  padding: 6px 14px;
+  /* Borda do Link de Login: Mapeado para Azul Brilhante */
+  border: 1px solid #24a4ff;
+  border-radius: 6px;
+  transition: all 0.3s ease;
+  font-weight: 600;
+}
+
+.loginlink:hover {
+  /* Sombra e Fundo do Hover de Login: Mapeado para Azul Brilhante */
+  background: rgba(36, 164, 255, 0.1);
+  box-shadow: 0 0 12px rgba(36, 164, 255, 0.6);
+}
+
+/* Estilo do Botão Hamburguer */
+.menutoggle {
+  display: none;
+  width: 30px;
+  height: 22px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  position: relative;
+  z-index: 1010;
+}
+
+.iconline {
+  display: block;
+  width: 100%;
+  height: 2px;
+  /* Cor da Linha do Hamburguer: Mapeado para Azul Brilhante */
+  background: #24a4ff;
+  margin: 6px 0;
+  transition: all 0.3s ease;
+}
+
+/* Overlay para fechar o menu ao clicar fora */
+.menuoverlay {
+  display: none;
+}
+
+
+/* ================================================================= */
+/* Media Query para Telas Menores (Side Menu: max-width 992px) */
+/* ================================================================= */
+
+@media (max-width: 992px) {
+
+  .headermenu {
+    padding: 0 20px;
+    height: 60px;
+  }
+
+  /* Topbar: Garante que a Logo, User Info e Hamburguer se separem */
+  .topbar {
+    width: 100%;
+    flex-grow: 1;
+    justify-content: space-between;
+  }
+
+  /* 1. User Section: Visível em mobile (Nome + Role) */
+  .usersection {
+    display: flex !important;
+    order: 2;
+    margin-right: 15px;
+    gap: 8px;
+    margin-left: auto;
+  }
+
+  /* 2. Botão Hamburguer: Visível */
+  .menutoggle {
+    display: block;
+    order: 3;
+  }
+
+  /* 3. Side Menu: Estilo do Menu Lateral */
+  .navlinks {
+    display: flex;
+    justify-content: flex-start;
+    position: fixed;
+    top: 0;
+    right: 0;
+    height: 100vh;
+    width: 250px;
+    /* Fundo do Menu Lateral: Mapeado para Azul Profundo */
+    background: #001837;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 80px 30px 20px;
+    box-shadow: -4px 0 15px rgba(0, 0, 0, 0.4);
+    z-index: 1005;
+    transform: translateX(100%);
+    overflow-y: auto;
+  }
+
+  .navlinks.open {
+    transform: translateX(0);
+  }
+
+  /* 4. Esconde o Nome/Role e o Sair de Desktop em mobile */
+  .usersectionDesktop {
+    display: none !important;
+  }
+
+  /* Ativa o overlay */
+  .menuoverlay {
+    display: block;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 1004;
+  }
+}
+
+
+/* ================================================================= */
+/* Media Query para Telas Maiores (Desktop: min-width 993px) */
+/* ================================================================= */
+
+@media (min-width: 993px) {
+
+  .headermenu {
+    justify-content: flex-start;
+    gap: 20px;
+  }
+
+  /* 1. Topbar: Contém apenas a Logo */
+  .topbar {
+    width: auto;
+    flex-grow: 0;
+    display: flex;
+    order: 1;
+  }
+
+  /* 2. User Section (Nome/Role): Escondemos a versão dentro do topbar */
+  .usersection {
+    display: none !important;
+  }
+
+  /* 3. Links de Navegação: Ocupa o centro */
+  .navlinks {
+    display: flex !important;
+    flex-grow: 1;
+    padding-right: 20px;
+    position: static;
+    transform: translateX(0);
+    order: 2;
+    padding-left: 0;
+  }
+
+  /* 4. Botão Sair + Nome/Role (usersectionDesktop): Extrema Direita */
+  .usersectionDesktop {
+    display: flex !important;
+    order: 3;
+    margin-left: auto;
+    gap: 15px;
+  }
+
+  /* Esconder elementos mobile */
+  .menutoggle {
+    display: none;
+  }
+
+  .menubottomsection {
+    display: none;
+  }
+}
+
+.themeToggle {
+  background: transparent;
+  /* Cor do Ícone: Mapeado para Azul Brilhante */
+  color: #24a4ff;
+  border: 1px solid #24a4ff;
+  border-radius: 40%; /* Torna o botão redondo */
+  width: 38px; /* Tamanho do círculo */
+  height: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  flex-shrink: 0;
+  margin-bottom: 5px;
+}
+
+.themeToggle:hover {
+  /* Fundo de Hover e Sombra de Tema: Mapeado para Azul Brilhante */
+  background: rgba(36, 164, 255, 0.1);
+  box-shadow: 0 0 10px rgba(36, 164, 255, 0.6);
+}
+
+.themeicon {
+  font-size: 1.2rem; /* Tamanho do ícone (ajuste conforme o ícone usado - ex: Font Awesome) */
+  line-height: 1;
+}
+
+/* Garante que o botão seja exibido corretamente em desktop na usersectionDesktop */
+@media (min-width: 993px) {
+  .usersectionDesktop {
+    /* Adiciona margem entre o botão de tema e o userinfo */
+    gap: 15px; /* Mantenha o gap original, mas garanta que o botão se encaixe */
+  }
+}
+
+/* Garante que o botão seja exibido corretamente em mobile na topbar */
+@media (max-width: 992px) {
+  .topbar {
+    /* Ajuste para acomodar o novo botão na topbar em mobile, antes do usersection */
+    justify-content: space-between;
+  }
+  
+  /* Faz o botão aparecer em mobile */
+  .themeToggle {
+    display: flex; 
+    order: 1; /* Posiciona o botão logo após a logo */
+    margin-left: 10px; /* Adiciona um pequeno espaçamento após a logo */
+  }
+  
+  .logolink {
+    order: 0; /* Garante que a logo venha primeiro */
+    margin-right: 15px;
+  }
+
+  /* Move a seção de usuário para a direita para acomodar o botão de tema */
+  .usersection {
+    order: 3; /* Move a seção do usuário mais para a direita (antes do hamburguer) */
+  }
+  
+  .menutoggle {
+    order: 4; /* Move o hamburguer para a extrema direita */
+  }
+}

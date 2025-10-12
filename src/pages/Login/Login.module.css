@@ -1,0 +1,177 @@
+.loginBackground {
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(-45deg, #001837, #0A1E2D, #102A43, #1B2D4A, #001837);
+  background-size: 400% 400%;
+  animation: diagonalWaves 25s ease-in-out infinite;
+  overflow: hidden;
+  font-family: 'Inter', sans-serif; /* local */
+}
+
+@keyframes diagonalWaves {
+  0% { background-position: 0% 50%; }
+  25% { background-position: 50% 100%; }
+  50% { background-position: 100% 50%; }
+  75% { background-position: 50% 0%; }
+  100% { background-position: 0% 50%; }
+}
+
+.loginCard {
+  /* Fundo mais transparente */
+  background: rgba(15, 23, 42, 0.6); 
+  backdrop-filter: blur(20px); /* Aumentar o blur */
+  padding: 35px; /* Ligeiramente menor */
+  border-radius: 20px; /* Borda mais suave */
+  /* Sombra de brilho mais sutil e interna */
+  box-shadow: 0 0 40px rgba(0, 198, 255, 0.25), inset 0 0 10px rgba(0, 198, 255, 0.1); 
+  width: 400px; /* Ligeiramente mais largo */
+  max-width: 90%;
+  text-align: center;
+  color: #E2E8F0; /* Cor um pouco mais fria */
+  border: 1px solid rgba(0, 198, 255, 0.2); /* Borda em tom de neon */
+  animation: fadeInUp 1s ease-out; /* Mudar para ease-out para melhor sensação */
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(40px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.loginTitle {
+  font-size: 1.7rem; /* Ligeiramente maior */
+  font-weight: 800; /* Mais espesso */
+  margin-bottom: 5px;
+  color: #00C6FF;
+  text-shadow: 0 0 25px rgba(0, 198, 255, 0.8); /* Brilho mais forte */
+  letter-spacing: 3px; /* Mais espaçado */
+  text-transform: uppercase; /* Dar um toque mais moderno/agressivo */
+}
+
+/* NOVO: Adicione este bloco */
+.loginSubtitle {
+    color: #94A3B8; /* Cinza suave */
+    font-size: 0.95rem;
+    margin-bottom: 25px; /* Maior espaçamento do formulário */
+    letter-spacing: 0.5px;
+}
+
+.loginForm {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.loginForm label {
+  width: 100%;
+  margin-bottom: 15px;
+  color: #F9FAFB;
+  text-align: left;
+}
+
+.loginInput {
+  width: 100%; /* Mudar para 100% */
+  padding: 14px; /* Ligeiramente maior */
+  border: 1px solid rgba(156, 163, 175, 0.15); 
+  border-radius: 8px;
+  outline: none;
+  background: rgba(0, 0, 0, 0.2); /* Fundo mais escuro */
+  color: #F9FAFB;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease; /* Adicionar transição */
+}
+
+.loginInput:focus {
+  border-color: #00C6FF;
+  box-shadow: 0 0 15px rgba(0, 198, 255, 0.7); /* Brilho mais intenso no foco */
+  background: rgba(0, 0, 0, 0.3); /* Escurecer um pouco no foco */
+}
+
+.loginButton {
+  width: 100%;
+  padding: 12px;
+  margin-top: 20px;
+  background: transparent;
+  color: #00C6FF;
+  font-size: 1rem;
+  border: 1px solid #00C6FF;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.loginButton:hover {
+  background: rgba(52, 211, 153, 0.15);
+  border-color: #34D399;
+  box-shadow: 0 0 12px rgba(52, 211, 153, 0.5);
+}
+
+.logoContainer {
+  position: absolute;
+  top: 20px;     /* distância do topo */
+  left: 20px;    /* distância da esquerda */
+}
+
+.loginLogo {
+  width: 150px;  /* diminui o tamanho da logo */
+  height: auto;
+  opacity: 0.9;  /* opcional — dá um leve efeito translúcido */
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.loginLogo:hover {
+  transform: scale(1.05);
+  opacity: 1;
+}
+
+@media (max-width: 480px) {
+    /* Ajustes para o Cartão de Login em telas pequenas */
+    .loginCard {
+        /* Permite que o card ocupe um pouco mais de espaço horizontal */
+        width: 95%; 
+        /* Diminui o padding interno para telas mais apertadas */
+        padding: 25px 20px; 
+        /* Sombra mais suave para não pesar tanto no celular */
+        box-shadow: 0 0 20px rgba(0, 198, 255, 0.2); 
+    }
+    
+    /* Ajustes para a Logo */
+    .logoContainer {
+        /* Posiciona a logo mais próxima da borda em telas pequenas */
+        top: 15px; 
+        left: 15px;
+    }
+
+    .loginLogo {
+        /* Diminui o tamanho da logo para não ser muito grande no celular */
+        width: 120px; 
+    }
+
+    /* Ajustes de Fonte */
+    .loginTitle {
+        /* Diminui o tamanho do título */
+        font-size: 1.5rem; 
+        /* Reduz o espaçamento entre letras */
+        letter-spacing: 2px;
+    }
+
+    .loginSubtitle {
+        /* Diminui o tamanho do subtítulo */
+        font-size: 0.85rem;
+        /* Reduz um pouco o espaçamento inferior */
+        margin-bottom: 20px; 
+    }
+
+    .loginInput {
+        /* Diminui um pouco o padding dos inputs */
+        padding: 12px; 
+    }
+
+    .loginButton {
+        /* Diminui um pouco o padding do botão */
+        padding: 10px;
+        /* Garante que o botão tenha margem superior suficiente */
+        margin-top: 15px; 
+    }
+}

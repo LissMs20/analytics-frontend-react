@@ -1,0 +1,290 @@
+/* src/pages/Historico/Historico.module.css */
+
+.container {
+    padding: 30px;
+    color: #F9FAFB;
+    min-height: 100vh;
+    margin-left: 100px;
+    margin-right: 100px;
+}
+
+.container h1 {
+    font-size: 2.2rem;
+    text-align: center;
+    color: var(--text-primary);
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    text-shadow: 0 0 16px rgba(0, 224, 255, 0.4);
+    margin-top: 50px;
+}
+
+.container h2 {
+    color: var(--text-secondary);
+    font-weight: 500;
+    border-bottom: 1px solid rgba(0, 198, 255, 0.2);
+    padding-bottom: 0.5rem;
+    margin: 1.5rem 0;
+}
+
+/* --- Barra de Pesquisa --- */
+.searchContainer {
+    margin-bottom: 2rem;
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.searchInput {
+    background-color:  var(--card-background);
+    border: 1px solid rgba(0, 200, 255, 0.721);
+    color: var(--text-secondary);
+    border-radius: 0.6rem;
+    padding: 0.75rem 1rem;
+    min-width: 350px;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.searchInput:focus {
+    border-color: #00E0FF;
+    box-shadow: 0 0 6px rgba(0,198,255,0.6);
+    outline: none;
+}
+
+.searchButton, .clearButton {
+    padding: 0.75rem 1.2rem;
+    border: none;
+    border-radius: 0.6rem;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.searchButton {
+    background-color: #00C6FF;
+    color: #020617;
+}
+
+.clearButton {
+    background-color: #EF4444;
+    color: white;
+}
+
+.searchButton:hover {
+    box-shadow: 0 0 12px rgba(0, 198, 255, 0.7);
+}
+
+.clearButton:hover {
+    background-color: #F87171;
+}
+
+/* --- Grid e Cards --- */
+.cardGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 24px;
+    margin-top: 30px;
+}
+
+.checklistCard {
+    background: var(--card-background);
+    border-radius: 12px;
+    padding: 20px;
+    border: 1px solid var(--border-color);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(8px);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: flex;
+    flex-direction: column;
+}
+
+.checklistCard:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 198, 255, 0.3);
+}
+
+.checklistCard h3 {
+    color: var(--text-secondary);
+    margin-top: 0;
+}
+
+.checklistCard p {
+    flex-grow: 1;
+}
+
+.checklistCard strong {
+    /* Usa a cor de destaque principal (ciano no Dark Mode, azul no Light Mode) */
+    color: var(--text-secondary);
+    font-weight: 700; /* Pode aumentar o peso se necessário */
+    margin-right: 5px; /* Adiciona um pequeno espaço após a label */
+}
+
+.btnDetails {
+    background: linear-gradient(90deg, #00C6FF, #34D399); /* Gradiente */
+    color: #0A0F1C; /* Texto escuro */
+    border: none;
+    padding: 10px 16px;
+    border-radius: 0.6rem;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    width: 100%; /* Garante que preencha o card */
+    margin-top: 15px;
+    letter-spacing: 0.3px;
+}
+
+.btnDetails:hover {
+    box-shadow: 0 0 12px rgba(0,198,255,0.5);
+    transform: translateY(-2px);
+    /* Mantém o gradiente na animação */
+}
+
+/* --- Paginação --- */
+.paginationControls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    margin-top: 2rem;
+    padding: 1rem;
+    background: var(--card-background);
+    border-radius: 8px;
+    flex-wrap: wrap;
+    border: 1px solid var(--border-color);
+}
+
+.paginationControls span {
+    color:  var(--text-secondary);
+}
+
+.paginationControls button {
+    padding: 8px 16px;
+    border-radius: 6px;
+    border: 1px solid var(--border-color);
+    background: transparent;
+    color: #000000;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.paginationControls button:hover:not(:disabled) {
+    background-color: linear-gradient(90deg, #00C6FF, #34D399);
+    color: #020617;
+}
+
+.paginationControls button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.paginationControls select {
+    background-color: var(--card-background);
+    border: 1px solid var(--border-color);
+    color: #F9FAFB;
+    border-radius: 6px;
+    padding: 8px;
+}
+
+
+/* ============================= */
+/* Modal Futurista */
+/* ============================= */
+.modalBackdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(2, 6, 23, 0.9);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    backdrop-filter: blur(6px);
+}
+
+.modalContent {
+    background: rgba(14, 24, 38, 0.95);
+    color: #F9FAFB;
+    padding: 30px;
+    border-radius: 14px;
+    max-width: 640px;
+    width: 95%;
+    max-height: 90vh;
+    overflow-y: auto;
+    border: 1px solid rgba(124, 58, 237, 0.4);
+    box-shadow: 0 6px 20px rgba(124, 58, 237, 0.4);
+    position: relative;
+    animation: fadeInScale 0.4s ease;
+}
+
+.modalContent h2 {
+    color: #A78BFA;
+    border-bottom-color: rgba(124, 58, 237, 0.3);
+}
+
+.detailsSection h3 {
+    border-bottom: 1px solid rgba(0, 198, 255, 0.2);
+    padding-bottom: 6px;
+    margin-top: 15px;
+    font-size: 1.2rem;
+    color: #00C6FF;
+}
+
+.falhaItemModal {
+    border: 1px solid rgba(0, 198, 255, 0.2);
+    padding: 15px;
+    margin-bottom: 15px;
+    border-radius: 8px;
+    background: rgba(2, 6, 23, 0.5);
+}
+
+.infoPlaceholder {
+    opacity: 0.6;
+    font-style: italic;
+}
+
+.btnCloseModal {
+    background: transparent;
+    color: #F87171;
+    border: 1px solid #F87171;
+    padding: 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    margin-top: 25px;
+    width: 100%;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.btnCloseModal:hover {
+    background: rgba(248, 113, 113, 0.1);
+    box-shadow: 0 0 12px rgba(248, 113, 113, 0.6);
+}
+
+@keyframes fadeInScale {
+    from { opacity: 0; transform: scale(0.9); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+.paginationControls button {
+    color: var(--text-secondary); 
+}
+
+.paginationControls select {
+    /* Manter as cores de fundo e borda existentes (usando variáveis de tema) */
+    background-color: var(--card-background); /* #0D1622 no dark mode */
+    border: 1px solid var(--border-cyan); /* rgba(0,198,255,0.3) */
+    color: var(--text-primary); /* #F9FAFB */
+    border-radius: 6px;
+    padding: 8px 30px 8px 12px; /* Aumenta o padding à direita para o ícone */
+    
+    /* 1. REMOVE APARÊNCIA NATIVA */
+    appearance: none; 
+    -webkit-appearance: none; 
+    -moz-appearance: none; 
+
+    /* 2. ADICIONA ÍCONE CUSTOMIZADO (Seta para baixo) */
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='%2300E0FF'%3E%3Cpath fill-rule='evenodd' d='M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z' clip-rule='evenodd' /%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 8px center; /* Posição do ícone */
+    background-size: 16px; /* Tamanho do ícone */
+
+    cursor: pointer;
+}

@@ -1,0 +1,93 @@
+/* --- Variáveis Globais para Tema --- */
+* {
+    font-family: 'Nunito Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+:root {
+    /* Modo Escuro (Dark Mode - Padrão) */
+    --primary-dark: #001837;
+    --background-dark: rgba(10, 15, 28, 0.95);
+    --card-background: rgba(18, 18, 18, 0.65);
+    --text-primary: #ffffff;
+    --text-secondary: #e8e8e8;
+    --highlight-blue: #24a4ff;
+    --highlight-green: #00b37c;
+    --border-color: rgba(36, 164, 255, 0.25);
+    --title-shadow: 0 0 15px var(--highlight-blue);
+    --shadow-color: rgba(36, 164, 255, 0.12);
+    --hover-shadow-color: rgba(36, 164, 255, 0.4);
+    --chart-text-color: #e8e8e8; /* Claro no dark mode */
+    --chart-grid-color: rgba(36, 164, 255, 0.1); /* Sutil no dark mode */
+    --overlay-color: rgba(10, 15, 28, 0.5); /* Overlay escuro sutil */
+}
+
+/* ------------------------------------------- */
+/* --- OVERRIDES PARA MODO CLARO (.light-mode) --- */
+/* ------------------------------------------- */
+html.light-mode {
+    /* ... (Fundo geral e sidebar) ... */
+
+    /* Cartões */
+    /* Deixando-o mais claro e neutro (branco) para não interferir nas cores do texto */
+    --card-background: rgba(255, 255, 255, 0.4); /* Deve ser claro para o light mode */
+    --border-color: rgba(180, 190, 200, 0.7);
+
+    /* Textos - Use cores ESCURAS para light mode */
+    --text-primary: #1f2937;    /* Títulos - ESCURO */
+    --text-secondary: #4b5563;  /* Textos Secundários/Gráficos - ESCURO (Ex: Eixos, Legendas) */
+    
+    /* Cores de Destaque - Use cores ESCURAS para light mode */
+    --highlight-blue: #007bff;  /* Destaque - ESCURO */
+    --highlight-green: #00b37c; /* Destaque - ESCURO */
+    --title-shadow: none; 
+    /* Mantenho o nome da variável, mas mudo para uma cor de alto contraste */
+
+    --border-color: rgba(106, 106, 106, 0.7);
+    --shadow-color: rgba(0, 0, 0, 0.1);
+    --hover-shadow-color: rgba(0, 0, 0, 0.2);
+
+    /* O texto do gráfico deve ser escuro */
+    --chart-text-color: #1f2937; 
+    --chart-grid-color: rgba(0, 0, 0, 0.1); 
+    --overlay-color: rgba(255, 255, 255, 0.6);  
+}
+
+
+
+/* Aplicação de classes básicas que não estão no Home.css */
+
+/* Dark Mode - Aplica a imagem de fundo escura, o overlay escuro e o modo de mistura */
+.dark-mode body {
+    color: var(--text-secondary);
+    /* Imagem escura (background-dark.png) */
+    background-image: linear-gradient(var(--overlay-color), var(--overlay-color)), url('/background-dark.png'); 
+    background-blend-mode: multiply; /* Multiplica a cor do overlay (escuro) com a imagem */
+}
+
+/* Light Mode - Aplica a imagem de fundo clara, o overlay claro e o modo de mistura */
+.light-mode body {
+    color: var(--text-primary);
+    /* Imagem clara (background-light.png) */
+    background-image: linear-gradient(var(--overlay-color), var(--overlay-color)), url('/background-light.png'); 
+    background-blend-mode: screen; /* Clarea a imagem com o overlay claro */
+}
+
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body, #root {
+    width: 100%;
+    height: 100%;
+}
+
+body {
+    /* Propriedades comuns de fundo */
+    background-repeat: no-repeat;
+    background-size: cover; 
+    background-attachment: fixed;
+    margin: 0;
+}

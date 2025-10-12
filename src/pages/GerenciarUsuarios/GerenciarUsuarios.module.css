@@ -1,0 +1,207 @@
+/* src/GerenciarUsuarios/GerenciarUsuarios.module.css */
+
+/* Definição de Cores (Ajustar em um arquivo de variáveis globais, se houver) */
+:root {
+    --color-primary-dark: #001837; /* Azul Profundo */
+    --color-primary: #24a4ff; /* Azul Brilhante */
+    --color-success: #00b37c; /* Verde Esmeralda */
+    --color-success-dark: #008e62; /* Verde Esmeralda Escuro */
+    --color-border: #e8e8e8; /* Cinza Suave */
+    --color-primary-light: #f0f4f8; /* Azul muito suave para fundo de cabeçalho da tabela */
+    --color-error: #f44336; /* Vermelho Padrão */
+    --color-error-dark: #d32f2f; /* Vermelho Escuro */
+    --color-text-subtle: #6c757d; /* Cinza para textos secundários */
+}
+
+.gerenciarUsuariosContainer {
+    padding: 30px; /* Mais espaço */
+    min-height: 100vh;
+}
+
+/* 2. Selecione o H1 DENTRO desse container */
+.gerenciarUsuariosContainer h1 {
+    color: var(--text-primary);
+    font-size: 2.5em; /* Um pouco maior */
+    margin-bottom: 30px;
+    /* Remove a borda inferior para um visual mais limpo e leve */
+    border-bottom: none; 
+    padding-bottom: 0;
+    margin-top: 40px; /* Reduzimos a margem superior */
+    font-weight: 300; /* Título mais leve */
+}
+
+/* Títulos Secundários */
+.gerenciarUsuariosContainer h2 {
+    color: var(--text-primary);
+    font-size: 1.5em;
+    margin-top: 30px;
+    margin-bottom: 15px;
+    font-weight: 500;
+}
+
+/* Formulário de Criação */
+.userCreationForm {
+    background-color: var(--card-background); 
+    padding: 25px;
+    border-radius: 10px; /* Bordas mais arredondadas */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08); /* Sombra mais destacada e suave */
+    margin-bottom: 40px;
+    border: 1px solid var(--border-color); /* Borda sutil */
+}
+
+.userCreationForm h2 {
+    color: var(--text-primary); /* Azul Brilhante para destaque */
+    margin-top: 0;
+    border-bottom: 2px solid var(--border-color); /* Borda mais suave */
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+    font-weight: 600;
+}
+
+.userCreationForm form {
+    display: flex;
+    gap: 15px; /* Mais espaço entre os campos */
+    align-items: center;
+}
+
+.userCreationForm input,
+.userCreationForm select {
+    padding: 12px; /* Mais padding */
+    border: 1px solid var(--border-color);
+    border-radius: 6px; /* Bordas mais arredondadas */
+    flex-grow: 1; 
+    font-size: 1em;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.userCreationForm input:focus,
+.userCreationForm select:focus {
+    border-color: var(--border-color); /* Destaque azul ao focar */
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(36, 164, 255, 0.2); /* Sombra de foco suave */
+}
+
+.userCreationForm button {
+    padding: 12px 25px;
+    background-color: var(--color-success); /* Verde Esmeralda */
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.2s, transform 0.1s;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.userCreationForm button:hover:not(:disabled) {
+    background-color: var(--card-background); /* Verde Escuro */
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(0, 179, 124, 0.3);
+}
+
+.userCreationForm button:disabled {
+    background-color: #a3c9bb; /* Tom de verde mais claro e sem brilho */
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+/* Estilização da Tabela */
+.userManagementTable {
+    width: 100%;
+    border-collapse: separate; /* Permite border-spacing */
+    border-spacing: 0; /* Remove o espaço entre as células */
+    margin-top: 20px;
+    background-color: var(--card-background);
+    border-radius: 8px; /* Arredonda a tabela inteira */
+    overflow: hidden; /* Garante que o arredondamento funcione */
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.userManagementTable th,
+.userManagementTable td {
+    padding: 15px; /* Mais padding para células */
+    text-align: left;
+    /* Remove a borda inferior rígida e usa apenas a borda de célula mais suave */
+    border-bottom: 1px solid var(--border-color); 
+}
+
+/* Cabeçalho da Tabela */
+.userManagementTable thead th {
+    background-color: var(--card-background); /* Azul muito suave */
+    color: var(--text-primary); /* Azul Profundo */
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 0.85em;
+    letter-spacing: 0.8px;
+    border-bottom: 2px solid var(--border-color); /* Borda mais grossa no final do cabeçalho */
+}
+
+/* Primeira e última coluna do cabeçalho para arredondamento */
+.userManagementTable thead tr th:first-child { border-top-left-radius: 8px; }
+.userManagementTable thead tr th:last-child { border-top-right-radius: 8px; }
+
+
+/* Linhas da Tabela */
+.userManagementTable tbody tr:last-child td {
+    border-bottom: none; /* Remove a borda da última linha */
+}
+
+.userManagementTable tr:hover {
+    background-color: var(--card-background); /* Hover mais suave (quase branco) */
+    transition: background-color 0.15s;
+}
+
+/* Estilo do Input/Select Inline (Name e Role) */
+.userManagementTable input[type="text"],
+.userManagementTable select {
+    padding: 8px;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    font-size: 1em;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* Estilo para a tag <span> do Nome */
+.userManagementTable td span {
+    display: block;
+    cursor: pointer;
+    padding: 2px 4px;
+}
+
+/* Botão de exclusão */
+.btnDelete {
+    padding: 8px 15px;
+    background-color: var(--color-error); /* Vermelho Padrão */ 
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.2s, transform 0.1s;
+    font-size: 0.85em;
+    font-weight: 600;
+}
+
+.btnDelete:hover:not(:disabled) {
+    background-color: var(--color-error-dark);
+    transform: translateY(-1px);
+}
+
+.btnDelete:disabled {
+    background-color: #ff9999; 
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* Mensagens de erro */
+.errorMessage {
+    padding: 12px;
+    background-color: #ffeaea; /* Fundo mais suave para erro */
+    border: 1px solid var(--color-error); 
+    color: #cc0000;
+    border-radius: 6px;
+    margin-bottom: 25px;
+    font-weight: 500;
+}

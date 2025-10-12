@@ -1,0 +1,227 @@
+/* --- src/css/Home.css - CÓDIGO FINAL E CORRIGIDO PARA O TEMA --- */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+  overflow-x: hidden;
+}
+
+.dashboardcontainer {
+  min-height: 100vh;
+  width: 100vw;
+  
+  /* ✅ CORREÇÃO: USAR VARIÁVEIS DE TEMA PARA IMAGEM */
+  background-image: var(--main-background-image); 
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-attachment: fixed;
+  
+  /* ✅ CORREÇÃO: USAR VARIÁVEIS DE TEMA PARA COR DE OVERLAY E BLEND MODE */
+  background-color: var(--main-background-color-overlay); /* Usa o overlay */
+  background-blend-mode: var(--main-background-blend-mode); /* Usa o blend mode */
+  
+  padding: 40px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+}
+
+.dashboardheader {
+  margin-top: 60px;
+  margin-bottom: 40px;
+  text-align: left;
+  width: 100%;
+  max-width: 1400px;
+}
+
+.dashboardheader h1 {
+  font-size: 2.0rem;
+  /* USANDO VARIÁVEIS DE TEMA */
+  color: var(--highlight-blue);
+  font-weight: 700;
+  /* USANDO VARIÁVEIS DE TEMA */
+  text-shadow: var(--title-shadow); 
+  margin: 0;
+  text-align: left;
+}
+
+.dashboardheader p {
+  /* USANDO VARIÁVEIS DE TEMA */
+  color: var(--text-secondary);
+  font-size: 1.1rem;
+  margin-top: 8px;
+}
+
+.dashboardcards {
+  display: grid;
+  gap: 30px;
+  width: 100%;
+  grid-template-columns: 1fr;
+}
+
+.card-span-2 {
+  grid-column: span 1;
+}
+
+.card {
+  /* USANDO VARIÁVEIS DE TEMA */
+  background: var(--card-background);
+  backdrop-filter: blur(10px);
+  padding: 30px;
+  border-radius: 18px;
+  /* USANDO VARIÁVEIS DE TEMA */
+  border: 1px solid var(--border-color);
+  /* USANDO VARIÁVEIS DE TEMA */
+  box-shadow: 0 4px 15px var(--shadow-color);
+  transition: all 0.3s ease;
+  height: 400px;
+  min-height: 300px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.card:hover {
+  transform: translateY(-6px);
+  /* USANDO VARIÁVEIS DE TEMA */
+  box-shadow: 0 0 25px var(--hover-shadow-color);
+}
+
+.card canvas {
+  max-width: 100%;
+  flex-grow: 1;
+  height: 100% !important;
+  margin: 0;
+  display: block;
+  max-height: calc(100% - 40px);
+}
+
+.dashboardcards > div:nth-child(2) canvas {
+  max-height: 150px;
+  flex-grow: 0;
+  margin-top: 20px;
+  margin-bottom: 10px;
+}
+
+.card h3 {
+  /* USANDO VARIÁVEIS DE TEMA */
+  color: var(--text-primary); 
+  margin-bottom: 10px;
+  font-size: 1.3rem;
+  font-weight: 600;
+  /* USANDO VARIÁVEIS DE TEMA */
+  text-shadow: var(--title-shadow);
+  flex-shrink: 0;
+}
+
+.kpi {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  flex-shrink: 0;
+  text-align: center;
+}
+
+.kpi h2 {
+  font-size: 3.5rem;
+  font-weight: bold;
+  /* USANDO VARIÁVEIS DE TEMA */
+  color: var(--highlight-blue);
+  margin: 0 0 10px;
+  /* USANDO VARIÁVEIS DE TEMA */
+  text-shadow: 0 0 5px var(--highlight-blue);
+}
+
+.kpi p {
+  font-size: 1.3rem;
+  /* USANDO VARIÁVEIS DE TEMA */
+  color: var(--text-secondary);
+  margin: 0;
+}
+
+/* ------------------------------------------------------------------ */
+/* MEDIA QUERIES (ORDEM CORRETA É CRUCIAL) */
+/* ------------------------------------------------------------------ */
+@media (max-width: 768px) {
+  .dashboardcontainer {
+    padding: 20px;
+  }
+  .dashboardcards {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  .card {
+    height: 300px;
+    min-height: 250px;
+  }
+  .card-span-2,
+  .dashboardcards > div {
+    grid-column: span 1 !important;
+  }
+  .kpi {
+    align-items: center;
+  }
+}
+
+@media (min-width: 769px) and (max-width: 991px) {
+  .dashboardcards {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .dashboardcards > div:nth-child(3) {
+    grid-column: 1 / -1;
+  }
+  .card-span-2 {
+    grid-column: span 2;
+  }
+}
+
+@media (min-width: 992px) {
+  .dashboardcards {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .card-span-2 {
+    grid-column: span 2;
+  }
+}
+
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 70px;
+  height: 100%;
+  /* USANDO VARIÁVEIS DE TEMA */
+  background: var(--background-dark);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px 0;
+}
+
+.sidebar a {
+  margin: 15px 0;
+  /* USANDO VARIÁVEIS DE TEMA */
+  color: var(--text-secondary);
+  transition: all 0.3s ease;
+}
+
+.sidebar a:hover {
+  /* USANDO VARIÁVEIS DE TEMA */
+  color: var(--highlight-blue);
+  /* USANDO VARIÁVEIS DE TEMA */
+  text-shadow: 0 0 8px var(--highlight-blue);
+}

@@ -1,0 +1,223 @@
+/* Paleta de Cores:
+Azul Profundo: #001837 (Fundo)
+Azul Brilhante: #24a4ff (Destaque Principal)
+Verde Esmeralda: #00b37c (Destaque Secundário/Sucesso)
+Branco Limpo: #ffffff 
+Cinza Suave: #e8e8e8 
+*/
+
+.ia-page-container {
+    /* Fundo da página, idealmente onde a imagem de fundo estaria. */
+    /* Mantendo a cor escura como fallback. */
+    background-color: radial-gradient(circle at 20% 20%, #0a0f1c 0%, #020617 100%);
+    min-height: 100vh; /* Garante que preencha toda a tela */
+    padding: 20px 50px; /* Padding nas laterais */
+    color: #e8e8e8; /* Cor do texto padrão */
+    margin-top: 60px;
+}
+
+/* Títulos e Identidade Visual (Cortex) */
+.title-group {
+    margin-bottom: 40px; 
+    padding-bottom: 15px;
+    border-bottom: 3px solid var(--border-color); /* Linha Azul Brilhante sutil */
+    text-align: center; /* Centraliza o título */
+}
+
+.main-title {
+    /* Nome da IA - Azul Brilhante e Forte */
+    font-size: 5.5em; 
+    font-weight: 500; 
+    color: var(--text-primary);
+    letter-spacing: 5px; 
+    text-shadow: 0 0 15px rgba(36, 164, 255, 0.7), 
+                 0 0 30px rgba(36, 164, 255, 0.3);
+    margin: 0;
+    line-height: 1; 
+    text-shadow: var(--title-shadow, 0 0 16px rgba(0, 224, 255, 0.4));
+}
+
+.subtitle-text {
+    font-size: 1.4em;
+    color:  var(--text-secondary);
+    font-weight: 600; 
+    margin: 10px 0 0 0;
+}
+
+/* Estilo do Formulário de Consulta */
+.analysis-form {
+    margin-bottom: 40px;
+    padding: 30px;
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    /* Fundo semi-transparente para ver a imagem de fundo */
+    background-color: rgba(0, 24, 55, 0.7); /* Azul Profundo (70% Opacidade) */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+.analysis-label {
+    display: block;
+    margin-bottom: 15px;
+    font-weight: 600; 
+    color: #ffffff; /* Branco Limpo */
+}
+
+.analysis-tip-text {
+    font-size: 0.9em;
+    color: #24a4ff; /* Dica em Azul Brilhante */
+    margin: 5px 0;
+    font-weight: normal;
+}
+
+.analysis-input {
+    width: 100%;
+    padding: 12px;
+    font-size: 16px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    background-color: #001837cb; /* Azul Profundo */
+    color: #ffffff;
+    box-sizing: border-box;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.analysis-input:focus {
+    outline: none;
+    border-color: #00b37c; /* Foco em Verde Esmeralda */
+    box-shadow: 0 0 5px rgba(0, 179, 124, 0.5);
+}
+
+.analysis-button {
+    background: linear-gradient(90deg, #00C6FF, #34D399);
+    color: #0A0F1C;
+    border: none;
+    padding: 10px 16px;
+    border-radius: 0.6rem;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    min-width: 160px;
+    letter-spacing: 0.3px;
+}
+
+.analysis-button:hover:not(:disabled) {
+    box-shadow: 0 0 12px rgba(0,198,255,0.5);
+    transform: translateY(-2px);
+}
+
+.analysis-button:disabled {
+    background-color: #001837; 
+    color: #e8e8e8;
+    border: 1px solid #444;
+    cursor: not-allowed;
+}
+
+.analysis-message-error {
+    margin-top: 15px;
+    color: #ff6384; /* Vermelho mais suave para erro */
+    font-weight: bold;
+}
+
+.analysis-message-success {
+    margin-top: 15px;
+    color: #00b37c; /* Verde Esmeralda para Sucesso */
+    font-weight: bold;
+}
+
+/* Estilos para as Seções de Resultado (Dashboard) */
+.analysis-result-container {
+    margin-top: 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 30px; /* Espaçamento entre as seções */
+}
+
+.result-section {
+    padding: 30px;
+    border: 1px solid rgba(0, 179, 124, 0.3); /* Borda Verde Esmeralda sutil */
+    border-radius: 12px;
+    /* Fundo semi-transparente para ver a imagem de fundo */
+    background-color: rgba(0, 24, 55, 0.8); /* Azul Profundo (60% Opacidade) */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+}
+
+.result-section h2 {
+    color: #24a4ff; /* Títulos de seção em Azul Brilhante */
+    margin-top: 0;
+    margin-bottom: 20px;
+    font-weight: 700;
+    border-bottom: 2px solid rgba(0, 179, 124, 0.5); /* Linha Verde Esmeralda */
+    padding-bottom: 10px;
+}
+
+/* Grid para os Gráficos */
+.charts-grid {
+    display: grid;
+    /* Colunas ajustáveis: 1 ou 2 dependendo do tamanho da tela */
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    gap: 20px;
+}
+
+.chart-container {
+    height: 350px; /* Altura ideal para visualização em dashboards */
+    min-width: 0; /* Correção para grids e flexbox */
+}
+
+/* Estilo para o Resumo */
+.summary-text {
+    white-space: pre-wrap;
+    line-height: 1.8;
+    color: #ffffff; /* Texto do resumo em Branco Limpo */
+    font-size: 1.1em;
+}
+
+.summary-text strong {
+    color: #00b37c; /* Palavras-chave em Verde Esmeralda */
+}
+
+/* Estilo para Listas (Tips/Dicas) */
+.tips-list {
+    list-style: none; /* Remove bullet padrão */
+    padding-left: 0;
+}
+
+.tip-item {
+    margin-bottom: 15px;
+    padding-left: 20px;
+    position: relative;
+    font-size: 1em;
+}
+
+.tip-item::before {
+    content: '▶'; /* Símbolo moderno como bullet */
+    color: #00b37c; /* Verde Esmeralda */
+    font-weight: bold;
+    position: absolute;
+    left: 0;
+    top: 0;
+    font-size: 0.8em;
+}
+
+.tip-title {
+    color: #24a4ff; /* Título da dica em Azul Brilhante */
+    font-weight: bold;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .ia-page-container {
+        padding: 20px 20px;
+    }
+    
+    .main-title {
+        font-size: 3.5em;
+    }
+
+    .charts-grid {
+        grid-template-columns: 1fr; /* Uma coluna em telas pequenas */
+    }
+
+    .chart-container {
+        height: 300px;
+    }
+}

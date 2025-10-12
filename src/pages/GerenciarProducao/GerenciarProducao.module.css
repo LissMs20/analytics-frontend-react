@@ -1,0 +1,320 @@
+/* Paleta de Cores:
+Azul Profundo (Primária): #001837
+Azul Brilhante (Destaque Principal): #24a4ff
+Verde Esmeralda (Destaque Secundário/Sucesso): #00b37c
+Branco Limpo (Neutro): #ffffff 
+Cinza Suave (Neutro): #e8e8e8 
+*/
+
+.gerenciarProducaoPage {
+    /* Fundo principal em Azul Profundo para Dark Mode */
+    background-color: radial-gradient(circle at 20% 20%, #0a0f1c 0%, #020617 100%);
+    min-height: 100vh;
+    padding: 20px 50px; 
+    color: #e8e8e8; /* Cinza Suave para texto padrão */
+}
+
+/* Estilo do Título da Página */
+.gerenciarProducaoPage h1 {
+    color: var(--text-primary);
+    font-size: 2.2em;
+    margin-bottom: 30px;
+    padding-bottom: 10px;
+    text-shadow: var(--title-shadow, 0 0 16px rgba(0, 224, 255, 0.4));
+    margin-top: 60px;
+}
+
+/* Container para alinhar os dois formulários lado a lado */
+.producaoFormsContainer {
+    display: flex;
+    gap: 30px;
+    margin-bottom: 40px;
+}
+
+/* Estilos Comuns (Classe Base) para as seções de formulário */
+.producaoFormSection {
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 4px 12px rgba(1, 0, 33, 0.4);
+    display: flex; 
+    flex-direction: column;
+}
+
+/* Estilo para o formulário principal (Mensal) - Destaque */
+.principal {
+    flex: 1.5; 
+    /* Um azul um pouco mais claro que o fundo para profundidade */
+    background-color: rgba(0, 11, 26, 0.9);
+    border: 1px solid #00b37c;/* Borda Azul Brilhante */
+}
+
+.principal input{
+    margin-top: 5px;
+    margin-bottom: 10px;
+}
+
+.principal h2 {
+    color: #ffffff; /* Título principal em Branco */
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    padding-bottom: 10px;
+    margin-top: 0;
+    margin-bottom: 15px;
+    font-weight: 600;
+}
+
+/* Estilo para o formulário secundário (Diário) - Menos Destaque */
+.secundario {
+    flex: 1; 
+    background-color: rgba(0, 17, 39, 0.9); /* Cor de fundo principal, mais discreto */
+    border: 1px solid #00b37c; /* Borda Verde Esmeralda sutil */
+    opacity: 0.95; 
+}
+
+.secundario h3 {
+    color: #00b37c; /* Título secundário em Verde Esmeralda */
+    margin-top: 0;
+    border-bottom: 1px solid rgba(0, 179, 124, 0.3);
+    padding-bottom: 8px;
+    font-size: 1.1em;
+    font-weight: 500;
+}
+
+.secundario form {
+    display: flex;
+    flex-direction: column; 
+    gap: 12px;
+}
+
+/* Estilo Comum para Inputs e Textareas */
+.principal form input,
+.principal form textarea,
+.secundario form input,
+.secundario form textarea {
+    padding: 10px;
+    border-radius: 6px;
+    border: 1px solid #004488;
+    background-color: #001f40; /* Azul Profundo escuro */
+    color: #ffffff;
+    font-size: 1em;
+}
+
+.principal form input:focus,
+.principal form textarea:focus,
+.secundario form input:focus,
+.secundario form textarea:focus {
+    outline: none;
+    border-color: #24a4ff;
+    box-shadow: 0 0 5px rgba(36, 164, 255, 0.5);
+}
+
+/* Estilo Comum para Botões */
+.principal button,
+.secundario button {
+    padding: 12px 20px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s;
+    margin-top: 10px;
+}
+
+/* Botão do Formulário Principal (Mensal) - Azul Brilhante */
+.principal button {
+    background-color: #24a4ff; 
+    color: #ffffff;
+}
+
+.principal button:hover:not(:disabled) {
+    background-color: #007bb3;
+}
+
+/* Botão do Formulário Secundário (Diário) - Verde Esmeralda */
+.secundario button {
+    background-color: #00b37c;
+    color: #ffffff;
+}
+
+.secundario button:hover:not(:disabled) {
+    background-color: #00885c;
+}
+
+button:disabled {
+    background-color: #001f40;
+    color: #888;
+    cursor: not-allowed;
+    border: 1px dashed #004488;
+}
+
+.nota {
+    font-size: 0.85em;
+    color: #24a4ff; /* Destaque sutil */
+    margin-top: 15px;
+    padding-top: 10px;
+    border-top: 1px dashed rgba(36, 164, 255, 0.3);
+}
+
+.producaoListSection h2{
+    color: var(--text-secondary);;
+}
+
+/* Tabela e Lista */
+.producaoListSection {
+    margin-top: 40px;
+}
+
+.producaoTable { 
+    width: 100%;
+    border-collapse: separate; /* Permite border-radius */
+    border-spacing: 0;
+    margin-top: 15px;
+    border-radius: 8px;
+    overflow: hidden; /* Garante que o border-radius funcione */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    color: #ffffff;
+    font-weight: 600;
+}
+
+.producaoTable th, .producaoTable td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: var(--border-color);
+    background-color: #000c19c5;  
+}
+
+.producaoTable th {
+    background-color: #010723ef;
+    color: #00b37c;
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 0.9em;
+}
+
+
+.producaoTable tr:hover {
+    background-color: #002c5c;
+    cursor: default;
+}
+
+
+
+/* Estilo para tornar a observação clicável na tabela */
+.clickableObs {
+    cursor: pointer;
+    color: #00b37c; /* Verde Esmeralda */
+    text-decoration: underline;
+    text-decoration-style: dotted;
+    display: block; 
+    padding: 2px 0;
+}
+
+.clickableObs:hover {
+    color: #ffffff;
+}
+
+/* Estilo do botão de Deletar na Tabela */
+.btn-delete {
+    background-color: #d52b2b; /* Vermelho Padrão do Chart.js, bom para alerta */
+    color: white;
+    padding: 6px 10px;
+    border-radius: 4px;
+    font-size: 0.85em;
+}
+
+.btn-delete:hover {
+    background-color: #e04b6b;
+}
+
+
+/* Responsividade básica para telas menores */
+@media (max-width: 900px) {
+    .producaoFormsContainer {
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .gerenciarProducaoPage {
+        padding: 20px;
+    }
+
+    .producaoTable th, .producaoTable td {
+        padding: 8px 10px;
+        font-size: 0.85em;
+    }
+}
+
+/* Camada escura que cobre a tela inteira */
+.modalOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 24, 55, 0.9); /* Azul Profundo semi-transparente */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000; /* Garante que fique acima de todos os outros elementos */
+    backdrop-filter: blur(3px); /* Efeito de desfoque sutil */
+}
+
+/* Container do conteúdo do modal (o pop-up em si) */
+.modalContent {
+    background-color: #002c5c; /* Cor de painel do formulário principal */
+    color: #e8e8e8;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.7);
+    width: 90%;
+    max-width: 500px;
+    animation: fadeIn 0.3s ease-out; /* Animação de entrada */
+    border: 2px solid #24a4ff;
+}
+
+.modalContent h2 {
+    color: #24a4ff; /* Azul Brilhante para o título */
+    margin-top: 0;
+    border-bottom: 1px solid rgba(36, 164, 255, 0.3);
+    padding-bottom: 10px;
+    margin-bottom: 15px;
+}
+
+.modalBody p {
+    white-space: pre-wrap; /* Mantém quebras de linha e espaços do textarea */
+    word-break: break-word; /* Quebra palavras longas */
+    max-height: 200px; /* Altura máxima da observação */
+    overflow-y: auto; /* Adiciona scroll se necessário */
+    padding: 5px;
+    background-color: #001f40;
+    border-radius: 5px;
+}
+
+/* Botão de Fechar do Modal (usando CamelCase para consistência do Module) */
+.btnCloseModal {
+    background-color: #00b37c; /* Verde Esmeralda */
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s;
+    margin-top: 20px;
+    float: right; /* Alinha o botão de fechar à direita */
+}
+
+.btnCloseModal:hover {
+    background-color: #00885c;
+}
+
+/* Animação para entrada do modal */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
