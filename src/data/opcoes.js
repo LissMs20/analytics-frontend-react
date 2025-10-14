@@ -15,6 +15,7 @@ export const OPCOES_FALHA_PRODUCAO = [
 // mas para clareza e segurança, vou duplicar a definição e dar um nome específico.
 export const OPCOES_SETOR_PRODUCAO = [
     'SMT',
+    'PTH',
     'Revisão - Sylmara',
     'Revisão - Cryslainy',
     'Revisão - Venâncio',
