@@ -105,7 +105,7 @@ label {
 input, select, textarea {
   background-color: #0D1622;
   border: 1px solid rgba(0,198,255,0.3);
-  color: #F9FAFB;
+  color: #F9FAFA;
   border-radius: 0.6rem;
   padding: 0.75rem 1rem;
   width: 100%;
@@ -298,3 +298,141 @@ button {
   border-radius: 4px;
 }
 ::-webkit-scrollbar-track { background: #0A1E2D; }
+
+/* Contêiner de pesquisa para posicionamento relativo da lista */
+.product-search-container {
+    position: relative;
+    z-index: 10;
+}
+
+/* Novo estilo para o botão de limpar (o 'X') */
+.clear-button {
+    position: absolute;
+    top: 50%; /* Centraliza verticalmente o botão */
+    right: 1.25rem; /* Posiciona à direita, dentro do padding do input */
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    color: #00E0FF; /* Cor do texto/ícone X */
+    font-size: 1.2rem;
+    font-weight: 700;
+    cursor: pointer;
+    padding: 0;
+    transition: color 0.2s;
+    line-height: 1; /* Garante que o 'X' não cause quebra de linha */
+    z-index: 11; /* Acima do input, mas abaixo da lista de sugestões */
+}
+
+.clear-button:hover {
+    color: #F9FAFB;
+}
+
+/* Ocultar a label quando o campo estiver desabilitado, mas o container precisa existir */
+.product-search-container label.field-disabled {
+    /* Manter estilos existentes de field-disabled, mas garantir que o position: relative funciona */
+    position: relative; 
+    display: block;
+}
+
+
+.suggestions-list {
+    position: absolute;
+    top: 100%; /* Posiciona a lista logo abaixo do input */
+    left: 0;
+    right: 0;
+    z-index: 100;
+    background: #0D1622;
+    border: 1px solid #00E0FF;
+    border-top: none;
+    border-radius: 0 0 0.6rem 0.6rem;
+    padding: 0;
+    margin: 0;
+    max-height: 300px;
+    overflow-y: auto;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
+    list-style: none;
+}
+
+.suggestion-item {
+    padding: 10px 1rem;
+    cursor: pointer;
+    color: #F9FAFB;
+    font-size: 0.95rem;
+    transition: background-color 0.2s, color 0.2s;
+}
+
+.suggestion-item:hover {
+    background-color: #004C73;
+    color: #00E0FF;
+}
+
+.suggestion-item:last-child {
+    border-bottom-left-radius: 0.6rem;
+    border-bottom-right-radius: 0.6rem;
+}
+
+.product-search-container input:focus {
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+    box-shadow: 0 0 6px rgba(0,198,255,0.6);
+}
+
+.product-search-container label.field-disabled input {
+    border-radius: 0.6rem;
+}
+
+.product-search-container input {
+    padding-right: 2.5rem;
+}
+
+.z-index-raised {
+    z-index: 20; 
+    position: relative;
+}
+
+select {
+    /* Remove a seta padrão do navegador para que possamos usar uma customizada */
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    
+    /* Adiciona a seta (ícone em SVG com a cor do tema: #00C6FF) */
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%2300C6FF' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 0.75rem center; /* Posição à direita, centralizado verticalmente */
+    background-size: 1.25rem; /* Tamanho do ícone */
+    
+    /* Aumenta o padding à direita para que o ícone de seta não cubra o texto */
+    padding-right: 2.5rem; 
+    
+    /* Garante que o fundo seja o mesmo dos inputs */
+    background-color: #0D1622;
+    border: 1px solid rgba(0,198,255,0.3); /* Borda fina e semi-transparente */
+    color: #F9FAFB;
+    border-radius: 0.6rem;
+}
+
+/* 2. ESTILO DE FOCO (Igual ao input) */
+select:focus {
+    border-color: #00E0FF;
+    box-shadow: 0 0 6px rgba(0,198,255,0.6);
+    outline: none;
+}
+
+/* 3. ESTILO QUANDO DESABILITADO (Importante para o fluxo de Assistência) */
+select:disabled {
+    /* Reduz a opacidade da seta e usa uma cor mais neutra */
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%239CA3AF' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+    background-color: #1F2937; /* Fundo levemente mais escuro */
+    border-color: rgba(0,198,255,0.1);
+    color: #9CA3AF;
+    opacity: 1; /* Manter a opacidade para o select, já que a label tem a opacidade de 0.6 */
+}
+
+/* 4. ESTILIZANDO AS OPÇÕES INTERNAS (Limitado) */
+/* Este estilo é aplicado à lista de opções *quando aberta*, mas a estilização
+   é limitada e inconsistente entre navegadores. */
+select option {
+    background-color: #0A0F1C; /* Fundo escuro */
+    color: #F9FAFB; /* Texto claro */
+}

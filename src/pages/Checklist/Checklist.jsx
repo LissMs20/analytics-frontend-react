@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react'; // Importamos useRef e useEffect
 import Menu from '../../components/Menu/Menu';
 import { createChecklist } from '../../api/api';
 import { useAuth } from '../../context/AuthProvider';
@@ -36,12 +36,32 @@ const Checklist = () => {
 
     // Estado: Termo de pesquisa para a placa
     const [searchQuery, setSearchQuery] = useState('');
+    // NOVO ESTADO: Controla a visibilidade da lista de sugestões
+    const [showSuggestions, setShowSuggestions] = useState(false);
+    
+    // Referência para o contêiner de pesquisa, para detectar cliques externos
+    const searchRef = useRef(null); 
 
     // FUNÇÃO DE FILTRAGEM: Otimizada para o array de strings
     const filteredProducts = PLACAS_PTH_SMD.filter(produto =>
         // Converte tudo para minúsculas e verifica se o termo de busca está incluído
         produto.toLowerCase().includes(searchQuery.toLowerCase())
-    ).slice(0, 10); // Limita a 10 resultados para não sobrecarregar
+    ).slice(0, 10); // Limita a 10 resultados
+
+    // Hook para fechar a lista de sugestões ao clicar fora
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (searchRef.current && !searchRef.current.contains(event.target)) {
+                setShowSuggestions(false);
+            }
+        };
+        // Adiciona o listener
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => {
+            // Remove o listener
+            document.removeEventListener("mousedown", handleClickOutside);
+        };
+    }, [searchRef]);
 
     // --- Handlers ---
 
@@ -67,11 +87,19 @@ const Checklist = () => {
         }
     };
 
-    // NOVO HANDLER: Atualiza o campo produto E o termo de busca
+    // HANDLER MODIFICADO: Atualiza o campo produto, o termo de busca e mostra a lista
     const handleProductChange = (e) => {
         const value = e.target.value;
         setFormData(prev => ({ ...prev, produto: value }));
         setSearchQuery(value); // Sincroniza o termo de busca
+        setShowSuggestions(value.length > 0 && !isProductDisabled); // Mostra a lista se houver texto e não estiver desabilitado
+    };
+
+    // NOVO HANDLER: Seleciona um produto da lista
+    const handleSelectProduct = (product) => {
+        setFormData(prev => ({ ...prev, produto: product }));
+        setSearchQuery(product); // Mantém o termo de busca igual ao produto selecionado
+        setShowSuggestions(false); // Esconde a lista
     };
 
     // NOVO HANDLER: Adiciona a falha atual ao array de falhas
@@ -177,8 +205,7 @@ const Checklist = () => {
         // Adiciona as falhas no objeto de envio
         dataToSend.falhas = falhasParaEnvio;
         
-        // Adiciona um placeholder para compatibilidade com o backend, se necessário, mas envia o array `falhas`
-        // Removendo campos que podem confundir se `falhas` está sendo usado
+        // Limpa campos temporários do formData para evitar conflito com a API se 'falhas' for usado
         if (dataToSend.falhas.length > 0) {
              delete dataToSend.falha; 
              delete dataToSend.localizacao_componente;
@@ -198,6 +225,7 @@ const Checklist = () => {
             setFalhasAdicionadas([]); // Limpa as falhas
             setVaiParaAssistencia(false);
             setSearchQuery('');
+            setShowSuggestions(false); // Garante que a lista feche
 
         } catch (error) {
             console.error("Erro ao salvar:", error);
@@ -209,6 +237,11 @@ const Checklist = () => {
         }
     };
 
+    const handleClearProduct = () => {
+        setFormData(prev => ({ ...prev, produto: '' }));
+        setSearchQuery('');
+        setShowSuggestions(false);
+    };
 
     const messageClass = message.startsWith('Erro') || message.includes('obrigatórios') ? 'message-error' : 'message-success';
 
@@ -226,6 +259,7 @@ const Checklist = () => {
                 )}
 
                 {/* --- 1. FLUXO DE ASSISTÊNCIA (Cartão Roxo) --- */}
+                {/* ... (código do card 1 permanece o mesmo) ... */}
                 <div className={`${styles['checklist-form-card']} ${styles['assistance-flow-box']}`}>
                     <h2>Fluxo de Destino</h2>
                     <label className={styles['toggle-label-container']}>
@@ -255,36 +289,57 @@ const Checklist = () => {
                 </div>
 
                 {/* --- 2. INFORMAÇÕES DA PLACA (Cartão Principal) --- */}
-                <div className={styles['checklist-form-card']}>
+                <div className={`${styles['checklist-form-card']} ${showSuggestions && searchQuery.length > 0 && !isProductDisabled ? styles['z-index-raised'] : ''}`}> {/* <- MUDANÇA AQUI */}
                     <h2>Informações da Placa</h2>
                     
                     <div className={styles['form-grid-2']}>
-                        {/* CAMPO PRODUTO (Pesquisa/Datalist) */}
-                        <label className={isProductDisabled ? styles['field-disabled'] : ''}>
-                            Produto (Pesquisar/Selecionar):
-                            <input
-                                type="text"
-                                name="produto"
-                                placeholder='Procure pelo código reduzido ou nome da placa'
-                                value={formData.produto}
-                                onChange={handleProductChange}
-                                list={searchQuery.length > 0 && !isProductDisabled ? "placas-list" : null}
-                                required
-                                disabled={isProductDisabled}
-                            />
-                            {searchQuery.length > 0 && !isProductDisabled && (
-                                <datalist id="placas-list">
-                                    {filteredProducts.map((produto) => (
-                                        <option key={produto} value={produto} />
-                                    ))}
-                                </datalist>
-                            )}
+                        {/* CAMPO PRODUTO (Pesquisa/Lista Estilizada) */}
+                        <div ref={searchRef} className={styles['product-search-container']}>
+                            <label className={isProductDisabled ? styles['field-disabled'] : ''}>
+                                Produto (Pesquisar/Selecionar):
+                                <input
+                                    type="text"
+                                    name="produto"
+                                    placeholder='Procure pelo código reduzido ou nome da placa'
+                                    value={formData.produto}
+                                    onChange={handleProductChange}
+                                    onFocus={() => { if (searchQuery.length > 0) setShowSuggestions(true); }} // Mostra ao focar se já houver texto
+                                    required
+                                    disabled={isProductDisabled}
+                                />
+
+                                {searchQuery.length > 0 && !isProductDisabled && (
+                                    <button
+                                        type="button"
+                                        onClick={handleClearProduct}
+                                        className={styles['clear-button']}
+                                        aria-label="Limpar campo de produto"
+                                    >
+                                        &times; {/* Caractere HTML para 'x' */}
+                                    </button>
+                                )}
+                                
+                                {showSuggestions && searchQuery.length > 0 && !isProductDisabled && filteredProducts.length > 0 && (
+                                    <ul className={styles['suggestions-list']}>
+                                        {filteredProducts.map((produto) => (
+                                            <li 
+                                                key={produto} 
+                                                className={styles['suggestion-item']}
+                                                onClick={() => handleSelectProduct(produto)}
+                                            >
+                                                {produto}
+                                            </li>
+                                        ))}
+                                    </ul>
+                                )}
+                                {/* FIM DA NOVA LISTA */}
+                            </label>
                             {isProductDisabled && (
                                 <p className={styles['no-product-found']}>
                                     Produto desabilitado ao adicionar falhas. Remova as falhas para alterar.
                                 </p>
                             )}
-                        </label>
+                        </div>
                         
                         {/* CAMPO QUANTIDADE */}
                         <label>
@@ -303,6 +358,7 @@ const Checklist = () => {
                 </div>
 
                 {/* --- 3. DETALHES DO DEFEITO (Cartão com Desabilitação) --- */}
+                {/* ... (restante do código do formulário permanece o mesmo) ... */}
                 <div className={`${styles['checklist-form-card']} ${isDefeitoDisabled ? styles['card-disabled'] : ''}`}>
                     <h2>Detalhes do Defeito</h2>
                     
@@ -397,6 +453,7 @@ const Checklist = () => {
                 </div> {/* Fim do Cartão de Detalhes do Defeito */}
                 
                 {/* --- 4. LISTA DE FALHAS ADICIONADAS --- */}
+                {/* ... (código do card 4 permanece o mesmo) ... */}
                 {falhasAdicionadas.length > 0 && (
                     <div className={`${styles['checklist-form-card']} ${styles['added-falhas-card']}`}>
                         <h2>Falhas Adicionadas: {falhasAdicionadas.length}</h2>

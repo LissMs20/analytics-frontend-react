@@ -71,6 +71,51 @@
   text-align: left;
 }
 
+.passwordInputContainer {
+    position: relative; /* Essencial para posicionar o botão */
+    width: 100%;
+}
+
+/* Garante que o input dentro do contêiner ocupe todo o espaço */
+.passwordInputContainer .loginInput {
+    padding-right: 45px; /* Adiciona espaço à direita para o botão */
+    box-sizing: border-box; /* Garante que o padding não aumente a largura total */
+}
+
+/* NOVO: Estilo para o botão de alternância */
+.togglePasswordButton {
+    position: absolute;
+    top: 50%;
+    right: 15px; /* Ajustado um pouco para a direita para melhor visual */
+    transform: translateY(-50%);
+    background: transparent;
+    border: none;
+    color: #00C6FF; /* Cor neon do tema */
+    cursor: pointer;
+    padding: 0; /* Removido padding para ter controle total do tamanho via font-size do ícone */
+    line-height: 1; 
+    font-size: 1.3rem; /* Tamanho do ícone. Ajuste este valor! */
+    transition: color 0.2s ease, transform 0.2s ease, text-shadow 0.2s ease; /* Adicionado text-shadow */
+    outline: none;
+    display: flex; /* Para centralizar melhor o SVG */
+    align-items: center; /* Para centralizar melhor o SVG */
+    justify-content: center; /* Para centralizar melhor o SVG */
+    text-shadow: 0 0 10px rgba(0, 198, 255, 0.5); /* Brilho neon sutil */
+}
+
+.togglePasswordButton:hover {
+    color: #34D399; /* Cor de hover, combinando com o botão de login */
+    transform: translateY(-50%) scale(1.1);
+    text-shadow: 0 0 15px rgba(52, 211, 153, 0.8); /* Brilho mais forte no hover */
+}
+
+.togglePasswordButton:disabled {
+    cursor: not-allowed;
+    opacity: 0.4; /* Menos opacidade para desabilitado */
+    transform: translateY(-50%) scale(1);
+    text-shadow: none; /* Remove o brilho quando desabilitado */
+}
+
 .loginInput {
   width: 100%; /* Mudar para 100% */
   padding: 14px; /* Ligeiramente maior */
@@ -173,5 +218,14 @@
         padding: 10px;
         /* Garante que o botão tenha margem superior suficiente */
         margin-top: 15px; 
+    }
+
+    .passwordInputContainer .loginInput {
+        padding-right: 40px; /* Um pouco menos de padding em telas pequenas */
+    }
+
+    .togglePasswordButton {
+        font-size: 1.1rem;
+        right: 10px;
     }
 }

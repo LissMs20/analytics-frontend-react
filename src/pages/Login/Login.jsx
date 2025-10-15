@@ -2,10 +2,14 @@ import React, { useState } from 'react';
 import { useAuth } from '../../context/AuthProvider';
 import { useNavigate } from 'react-router-dom';
 import styles from '../Login/Login.module.css';
+// IMPORTAR ÍCONES: Adicione estas duas linhas
+import { FaEye, FaEyeSlash } from 'react-icons/fa'; 
 
 const Login = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const [showPassword, setShowPassword] = useState(false); 
+    
     const { login, loading, error, user } = useAuth();
     const navigate = useNavigate();
 
@@ -14,12 +18,18 @@ const Login = () => {
         return null;
     }
 
+    const togglePasswordVisibility = () => {
+        setShowPassword(!showPassword);
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
             await login(username, password);
             navigate('/');
-        } catch (e) {}
+        } catch (e) {
+            // A exceção é capturada, mas o erro será exibido pelo 'error' do useAuth
+        }
     };
 
     return (
@@ -34,7 +44,7 @@ const Login = () => {
             {error && <p className={styles.errorMessage}>{error}</p>}
 
             <form onSubmit={handleSubmit} className={styles.loginForm}>
-            <label>
+            <label className={styles.loginLabel}>
                 <span>Usuário:</span>
                 <input
                 type="text"
@@ -46,16 +56,28 @@ const Login = () => {
                 />
             </label>
 
-            <label>
+            <label className={styles.loginLabel}>
                 <span>Senha:</span>
-                <input
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-                disabled={loading}
-                className={styles.loginInput}
-                />
+                <div className={styles.passwordInputContainer}>
+                    <input
+                    type={showPassword ? 'text' : 'password'}
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    required
+                    disabled={loading}
+                    className={styles.loginInput}
+                    />
+                    <button
+                        type="button"
+                        onClick={togglePasswordVisibility}
+                        className={styles.togglePasswordButton}
+                        disabled={loading}
+                        aria-label={showPassword ? 'Esconder Senha' : 'Mostrar Senha'}
+                    >
+                        {/* ALTERADO: Usando componentes de ícone */}
+                        {showPassword ? <FaEyeSlash /> : <FaEye />} 
+                    </button>
+                </div>
             </label>
 
             <button
@@ -63,7 +85,6 @@ const Login = () => {
                 disabled={loading}
                 className={styles.loginButton}
             >
-                {/* Alterado para maiúsculas para o visual futurista */}
                 {loading ? 'ENTRANDO...' : 'ENTRAR'} 
             </button>
             </form>
