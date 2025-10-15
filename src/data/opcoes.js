@@ -7,6 +7,7 @@ export const OPCOES_FALHA_PRODUCAO = [
     'Falha de solda',
     'Componente incorreto',
     'Componente desalinhado',
+    'Componente danificado',
     'Componente faltando',
     'Trilha rompida',
     'Outros',
@@ -27,6 +28,7 @@ export const OPCOES_SETOR_PRODUCAO = [
     'Tempo',
     'Nível',
     'Assistência',
+    'Outros',
 ];
 
 // --- Opções usadas na conclusão (Assistência/AssistenciaEditor.jsx) ---
