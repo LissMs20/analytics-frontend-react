@@ -1,28 +1,42 @@
 // /src/context/AuthProvider.jsx
 
-import React, { createContext, useState, useContext, useEffect } from 'react';
-import { loginUser, logoutUser } from '../api/api';
+import React, { createContext, useState, useContext, useEffect, useCallback } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { loginUser, logoutUser, setTokenExpiredHandler } from '../api/api';
 
 const AuthContext = createContext();
 
 export const useAuth = () => useContext(AuthContext);
 
 export const AuthProvider = ({ children }) => {
-    // Inicializa o estado com dados do localStorage, se houver
+    const navigate = useNavigate();
+
     const [user, setUser] = useState(() => {
         const username = localStorage.getItem('username');
         const role = localStorage.getItem('userRole');
-        // 💡 ADIÇÃO: Carrega o 'name' do localStorage
         const name = localStorage.getItem('userName'); 
-        
-        // 💡 ATUALIZAÇÃO: Inclui 'name' no objeto de usuário
-        return username && role ? { username, role, name } : null;
+        const token = localStorage.getItem('accessToken'); 
+
+        return username && role && token ? { username, role, name } : null;
     });
-    
+
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
 
-    // Função para logar o usuário
+    const handleLogoutAndRedirect = useCallback((message = null) => {
+        logoutUser();
+        setUser(null); 
+
+        if (message) {
+            setError(message);
+        } else {
+            setError(null);
+        }
+
+        navigate('/login'); 
+        
+    }, [navigate]);
+
     const login = async (username, password) => {
         setLoading(true);
         setError(null);
@@ -38,19 +52,22 @@ export const AuthProvider = ({ children }) => {
         }
     };
 
-    // Função para deslogar o usuário
     const logout = () => {
-        logoutUser();
-        setUser(null);
-        // 💡 ADIÇÃO: Remove o nome do localStorage
-        localStorage.removeItem('userName'); 
+        handleLogoutAndRedirect();
     };
-    
-    // Função de Autorização (RBAC)
+
+    useEffect(() => {
+        setTokenExpiredHandler(handleLogoutAndRedirect);
+
+        return () => {
+            setTokenExpiredHandler(() => {}); 
+        };
+    }, [handleLogoutAndRedirect]);
+
     const canAccess = (requiredRoles) => {
         if (!user) return false;
         if (requiredRoles.length === 0) return true; 
-        
+
         return requiredRoles.includes(user.role);
     };
 

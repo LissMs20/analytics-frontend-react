@@ -5,14 +5,34 @@ const API_BASE_ROOT_URL = import.meta.env.VITE_API_URL;
 const BASE_URL = API_BASE_ROOT_URL ? `${API_BASE_ROOT_URL}/api` : 'http://localhost:8000/api';
 
 const API = axios.create({
-  baseURL: BASE_URL, 
-  timeout: 15000, 
-  headers: {
-    'Content-Type': 'application/json',
-  },
+  baseURL: BASE_URL, 
+  timeout: 60000, 
+  headers: {
+    'Content-Type': 'application/json',
+  },
 });
 
-// 💡 Interceptor: Adiciona o token de autenticação (JWT) a cada requisição
+// ----------------------------------------------------
+// 💡 LÓGICA DE TRATAMENTO DE EXPIRAÇÃO
+// ----------------------------------------------------
+
+// Variável para armazenar a função de logout/redirecionamento que vem do AuthProvider.
+// A função deve aceitar uma mensagem de erro opcional.
+let onTokenExpiredHandler = (message = null) => {
+    // console.log("Handler de expiração de token chamado, mas não configurado.");
+};
+
+/**
+ * Função pública para o AuthProvider injetar a função de redirecionamento/logout.
+ * @param {Function} handler - A função que limpa o estado e redireciona para /login.
+ */
+export const setTokenExpiredHandler = (handler) => {
+    onTokenExpiredHandler = handler;
+};
+
+// ----------------------------------------------------
+// Interceptor de Requisição: Adiciona o token (Permanece igual)
+// ----------------------------------------------------
 API.interceptors.request.use(
   (config) => {
     // Tenta obter o token do armazenamento local (se existir)
@@ -29,65 +49,89 @@ API.interceptors.request.use(
 );
 
 // ----------------------------------------------------
+// 💡 Interceptor de Resposta: Captura o 401 (Chave para o retorno automático)
+// ----------------------------------------------------
+API.interceptors.response.use(
+    (response) => {
+        // Resposta OK. Apenas retorna.
+        return response;
+    },
+    (error) => {
+        // Verifica se há uma resposta e se o status é 401 (Unauthorized/Token Expirado)
+        if (error.response && error.response.status === 401) {
+            console.warn('Sessão expirada (401). Forçando logout e redirecionamento.');
+            
+            // 🚨 Chama o handler injetado, passando a mensagem de erro
+            onTokenExpiredHandler("Sua sessão expirou. Por favor, faça login novamente.");
+            
+            // Rejeita a Promise para evitar que o código que chamou a API continue processando
+            return Promise.reject(error);
+        }
+
+        // Para outros erros (400, 500, etc.), apenas repassa.
+        return Promise.reject(error);
+    }
+);
+
+// ----------------------------------------------------
 // Função de Login
 // ----------------------------------------------------
 export const loginUser = async (username, password) => {
-    try {
-        const form = new URLSearchParams();
-        form.append('username', username);
-        form.append('password', password);
+    try {
+        const form = new URLSearchParams();
+        form.append('username', username);
+        form.append('password', password);
 
-        // Rota /api/token
-        const response = await API.post('/token', form, {
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded',
-            },
-        });
+        // Rota /api/token
+        const response = await API.post('/token', form, {
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+        });
 
-        // 💡 MODIFICAÇÃO: Captura 'access_token', 'role' E 'name' do retorno da API
-        const { access_token, role, name } = response.data; 
+        // Captura 'access_token', 'role' E 'name' do retorno da API
+        const { access_token, role, name } = response.data; 
 
-        // Salva os dados essenciais no localStorage
-        localStorage.setItem('accessToken', access_token);
-        localStorage.setItem('userRole', role);
-        
-        // Decodifica o payload para pegar o username (sub) do token
-        const payload = JSON.parse(atob(access_token.split('.')[1]));
-        localStorage.setItem('username', payload.sub);
+        // Salva os dados essenciais no localStorage
+        localStorage.setItem('accessToken', access_token);
+        localStorage.setItem('userRole', role);
+        
+        // Decodifica o payload para pegar o username (sub) do token
+        const payload = JSON.parse(atob(access_token.split('.')[1]));
+        localStorage.setItem('username', payload.sub);
 
-        // 💡 NOVO: Salva o nome no localStorage, se estiver disponível
-        if (name) {
-            localStorage.setItem('userName', name);
-        } else {
-            // Garante que o item seja removido se o nome não for retornado (evita lixo)
-            localStorage.removeItem('userName'); 
-        }
+        // Salva o nome no localStorage, se estiver disponível
+        if (name) {
+            localStorage.setItem('userName', name);
+        } else {
+            localStorage.removeItem('userName'); 
+        }
 
-        // 💡 RETORNO ATUALIZADO: Retorna o 'name' junto
-        return { 
-            username: payload.sub, 
-            role: role,
-            name: name 
-        };
-        
-    } catch (error) {
-        console.error("Erro ao fazer login:", error.response ? error.response.data : error.message);
-        throw error;
-    }
+        // Retorna o objeto de usuário
+        return { 
+            username: payload.sub, 
+            role: role,
+            name: name 
+        };
+        
+    } catch (error) {
+        console.error("Erro ao fazer login:", error.response ? error.response.data : error.message);
+        throw error;
+    }
 };
 
 // ----------------------------------------------------
-// Função de Logout
+// Função de Logout (Permanece igual)
 // ----------------------------------------------------
 export const logoutUser = () => {
     localStorage.removeItem('accessToken');
     localStorage.removeItem('username');
     localStorage.removeItem('userRole');
-    localStorage.removeItem('userName');
+    localStorage.removeItem('userName');
 };
 
 // ----------------------------------------------------
-// FUNÇÕES DE CHECKLIST
+// FUNÇÕES DE CHECKLIST (Permanece igual)
 // ----------------------------------------------------
 
 export const createChecklist = async (data) => {
@@ -101,35 +145,34 @@ export const createChecklist = async (data) => {
 };
 
 export const listChecklists = async (status = null, page = null, limit = null, search = null) => {  
-  try {
-    let url = '/checklists/';
-    
-    const params = new URLSearchParams();
-    if (status) {
-      params.append('status', status);
-    }
-    if (search) {
-      params.append('search', search);
-    }
-    
-    // 💡 CORREÇÃO AQUI: Garante que PAGE e LIMIT sejam enviados JUNTOS se existirem.
-    if (page !== null) {
-      params.append('page', page);
-    } 
-    if (limit !== null) {
-      params.append('limit', limit);
-    }
+  try {
+    let url = '/checklists/';
+    
+    const params = new URLSearchParams();
+    if (status) {
+      params.append('status', status);
+    }
+    if (search) {
+      params.append('search', search);
+    }
+    
+    if (page !== null) {
+      params.append('page', page);
+    } 
+    if (limit !== null) {
+      params.append('limit', limit);
+    }
 
-    if (params.toString()) {
-      url += `?${params.toString()}`;
-    }
-    
-    const response = await API.get(url); 
-    return response.data; 
-  } catch (error) {
-    console.error("Erro ao listar checklists:", error.response ? error.response.data : error.message);
-    throw error;
-  }
+    if (params.toString()) {
+      url += `?${params.toString()}`;
+    }
+    
+    const response = await API.get(url); 
+    return response.data; 
+  } catch (error) {
+    console.error("Erro ao listar checklists:", error.response ? error.response.data : error.message);
+    throw error;
+  }
 };
 
 export const getChecklistById = async (documentoId) => {
@@ -153,35 +196,31 @@ export const updateChecklist = async (documentoId, data) => {
 };
 
 // ----------------------------------------------------
-// FUNÇÃO DE ANÁLISE DE DADOS DA IA (CORRIGIDA)
+// FUNÇÃO DE ANÁLISE DE DADOS DA IA (Permanece igual)
 // ----------------------------------------------------
-/**
- * Envia uma query em linguagem natural para a IA analisar os dados consolidados 
- * pelo backend e retornar um resumo e dados de visualização.
- * Rota: POST /api/analyze
- */
 export const analyzeData = async (query) => {
-    try {
-        // O backend (routers/analysis.py) é quem busca, consolida e analisa os dados.
-        // O frontend envia apenas a query.
-        const response = await API.post('/analyze', {
-            query: query 
-        });
+    try {
+        const response = await API.post('/analyze', {
+            query: query 
+        });
 
-        // Retorna o objeto AnalysisResponse (com summary, tips e visualization_data)
-        return response.data;
-        
+        return response.data;
+        
     } catch (error) {
-        console.error("Erro na análise da IA:", error.response ? error.response.data : error.message);
-        throw new Error(error.response?.data?.detail || 'Falha na análise avançada da IA.');
-    }
+        console.error("Erro na análise da IA:", error.response ? error.response.data : error.message);
+        
+        // 💡 VERIFICA SE O ERRO É DE TIMEOUT DO AXIOS (e.g., "timeout of 30000ms exceeded")
+        if (axios.isCancel(error) || error.code === 'ECONNABORTED' || error.message.includes('timeout')) {
+            throw new Error('Tempo limite da análise excedido (30s). Tente novamente ou simplifique a consulta.');
+        }
+
+        // Trata erros do servidor (4xx, 5xx)
+        throw new Error(error.response?.data?.detail || 'Falha na análise avançada da IA.');
+    }
 };
 
-// As funções fetchChecklistsForAnalysis e o uso de fetch nativo foram removidos.
 // ----------------------------------------------------
-
-// ----------------------------------------------------
-// FUNÇÕES DE USUÁRIO
+// FUNÇÕES DE USUÁRIO (Permanece igual)
 // ----------------------------------------------------
 export const listUsers = async () => {
     try {
@@ -224,7 +263,7 @@ export const deleteUser = async (userId) => {
 };
 
 // ----------------------------------------------------
-// FUNÇÕES DE PRODUÇÃO
+// FUNÇÕES DE PRODUÇÃO (Permanece igual)
 // ----------------------------------------------------
 export const createProducao = async (data) => {
     try {

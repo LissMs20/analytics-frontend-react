@@ -9,6 +9,8 @@ export const OPCOES_FALHA_PRODUCAO = [
     'Componente desalinhado',
     'Componente danificado',
     'Componente faltando',
+    'Componente incorreto',
+    'Componente invertido',
     'Trilha rompida',
     'Outros',
 ];
@@ -22,6 +24,7 @@ export const OPCOES_SETOR_PRODUCAO = [
     'Revisão - Cryslainy',
     'Revisão - Venâncio',
     'Revisão - Evilla',
+    'Revisão - Evelin',
     'Revisão - Outros',
     'Proteção 1',
     'Proteção 2',
@@ -38,6 +41,7 @@ export const OPCOES_FALHA_ASSISTENCIA = [
     'Falha de solda',
     'Defeito no componente',
     'Componente incorreto',
+    'Componente invertido',
     'Componente faltando',
     'Componente desalinhado',
     'Trilha rompida',
@@ -53,12 +57,14 @@ export const OPCOES_SETOR_ASSISTENCIA = [
     'Revisão - Cryslainy',
     'Revisão - Venâncio',
     'Revisão - Evilla',
+    'Revisão - Evelin',
     'Revisão - Outros',
     'Proteção 1',
     'Proteção 2',
     'Tempo',
     'Nível',
     'Assistência',
+    'Outros',
 ];
 
 // Para setores, se eles forem IGUAIS, você pode exportar apenas 'OPCOES_SETOR' e usá-la nos dois.

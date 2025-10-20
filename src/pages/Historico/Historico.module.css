@@ -35,7 +35,7 @@
 }
 
 .searchInput {
-    background-color:  var(--card-background);
+    background-color: var(--card-background);
     border: 1px solid rgba(0, 200, 255, 0.721);
     color: var(--text-secondary);
     border-radius: 0.6rem;
@@ -153,7 +153,7 @@
 }
 
 .paginationControls span {
-    color:  var(--text-secondary);
+    color: var(--text-secondary);
 }
 
 .paginationControls button {
@@ -161,14 +161,15 @@
     border-radius: 6px;
     border: 1px solid var(--border-color);
     background: transparent;
-    color: #000000;
+    color: var(--text-secondary); /* CORRIGIDO: mantém o texto claro para dark mode */
     cursor: pointer;
     transition: background-color 0.3s, color 0.3s;
 }
 
 .paginationControls button:hover:not(:disabled) {
-    background-color: linear-gradient(90deg, #00C6FF, #34D399);
-    color: #020617;
+    /* CORRIGIDO: Mantendo o estilo de hover no botão de paginação */
+    background-color: rgba(0, 198, 255, 0.1); 
+    color: #00C6FF;
 }
 
 .paginationControls button:disabled {
@@ -176,97 +177,128 @@
     cursor: not-allowed;
 }
 
-.paginationControls select {
-    background-color: var(--card-background);
-    border: 1px solid var(--border-color);
-    color: #F9FAFB;
-    border-radius: 6px;
-    padding: 8px;
-}
-
-
 /* ============================= */
-/* Modal Futurista */
+/* MODAL FUTURISTA - TRON STYLE */
 /* ============================= */
 .modalBackdrop {
     position: fixed;
     inset: 0;
-    background: rgba(2, 6, 23, 0.9);
+    background: rgba(2, 6, 23, 0.88);
+    backdrop-filter: blur(10px) saturate(160%);
     display: flex;
     justify-content: center;
     align-items: center;
     z-index: 1000;
-    backdrop-filter: blur(6px);
+    animation: fadeIn 0.3s ease;
 }
-
-.modalContent {
-    background: rgba(14, 24, 38, 0.95);
-    color: #F9FAFB;
-    padding: 30px;
-    border-radius: 14px;
-    max-width: 640px;
-    width: 95%;
-    max-height: 90vh;
-    overflow-y: auto;
-    border: 1px solid rgba(124, 58, 237, 0.4);
-    box-shadow: 0 6px 20px rgba(124, 58, 237, 0.4);
-    position: relative;
-    animation: fadeInScale 0.4s ease;
-}
-
-.modalContent h2 {
-    color: #A78BFA;
-    border-bottom-color: rgba(124, 58, 237, 0.3);
-}
-
-.detailsSection h3 {
-    border-bottom: 1px solid rgba(0, 198, 255, 0.2);
-    padding-bottom: 6px;
-    margin-top: 15px;
-    font-size: 1.2rem;
-    color: #00C6FF;
-}
-
-.falhaItemModal {
-    border: 1px solid rgba(0, 198, 255, 0.2);
-    padding: 15px;
-    margin-bottom: 15px;
-    border-radius: 8px;
-    background: rgba(2, 6, 23, 0.5);
-}
-
-.infoPlaceholder {
-    opacity: 0.6;
-    font-style: italic;
-}
-
-.btnCloseModal {
-    background: transparent;
-    color: #F87171;
-    border: 1px solid #F87171;
-    padding: 12px;
-    border-radius: 6px;
-    cursor: pointer;
-    margin-top: 25px;
-    width: 100%;
-    font-weight: 600;
-    transition: all 0.3s ease;
-}
-
-.btnCloseModal:hover {
-    background: rgba(248, 113, 113, 0.1);
-    box-shadow: 0 0 12px rgba(248, 113, 113, 0.6);
-}
-
-@keyframes fadeInScale {
-    from { opacity: 0; transform: scale(0.9); }
+@keyframes fadeIn {
+    from { opacity: 0; transform: scale(0.96); }
     to { opacity: 1; transform: scale(1); }
 }
-
-.paginationControls button {
-    color: var(--text-secondary); 
+.modalContent {
+    background: linear-gradient(145deg, rgba(10, 20, 35, 0.96), rgba(4, 12, 24, 0.96));
+    color: #E8E8E8;
+    padding: 35px;
+    border-radius: 18px;
+    max-width: 720px;
+    width: 95%;
+    max-height: 88vh;
+    overflow-y: auto;
+    border: 1px solid rgba(0, 198, 255, 0.3);
+    box-shadow: 0 0 25px rgba(0, 198, 255, 0.2), inset 0 0 8px rgba(0, 198, 255, 0.15);
+    animation: slideUp 0.4s ease;
+}
+@keyframes slideUp {
+    from { transform: translateY(30px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+/* Cabeçalho com Ícone e Título */
+.modalHeader {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 25px;
+}
+.modalIcon {
+    background: radial-gradient(circle, rgba(0,198,255,0.4), rgba(0,198,255,0.1));
+    color: #00C6FF;
+    font-size: 2.5rem;
+    border-radius: 12px;
+    padding: 10px;
+    box-shadow: 0 0 15px rgba(0,198,255,0.4);
+}
+.modalSubtitle {
+    font-size: 0.9rem;
+    opacity: 0.8;
+    color: #A0AEC0;
+}
+/* Seções */
+.detailsSection {
+    margin-top: 18px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid rgba(0, 198, 255, 0.2);
+}
+.detailsSection h3 {
+    color: #00C6FF;
+    font-size: 1.15rem;
+    font-weight: 600;
+    border-left: 3px solid #34D399;
+    padding-left: 10px;
+    margin-bottom: 10px;
+}
+.falhaItemModal {
+    background: rgba(15, 25, 40, 0.7);
+    border: 1px solid rgba(0, 198, 255, 0.25);
+    border-radius: 10px;
+    padding: 12px 18px;
+    margin-bottom: 12px;
+    box-shadow: 0 0 10px rgba(0,198,255,0.08);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.falhaItemModal:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 0 20px rgba(0,198,255,0.2);
+}
+.infoPlaceholder {
+    opacity: 0.7;
+    font-style: italic;
+    color: #A0AEC0;
+}
+/* Botão Fechar */
+.btnCloseModal {
+    background: linear-gradient(90deg, #00C6FF, #34D399);
+    border: none;
+    color: #020617;
+    padding: 12px 20px;
+    border-radius: 8px;
+    font-weight: 600;
+    width: 100%;
+    margin-top: 30px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    letter-spacing: 0.3px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+.btnCloseModal:hover {
+    box-shadow: 0 0 15px rgba(0,198,255,0.5);
+    transform: translateY(-2px);
+}
+/* Scrollbar custom */
+.modalContent::-webkit-scrollbar {
+    width: 8px;
+}
+.modalContent::-webkit-scrollbar-thumb {
+    background: rgba(0, 198, 255, 0.3);
+    border-radius: 10px;
+}
+.modalContent::-webkit-scrollbar-thumb:hover {
+    background: rgba(0, 198, 255, 0.6);
 }
 
+/* Mantendo os estilos de paginationControls que vieram depois do modal antigo */
 .paginationControls select {
     /* Manter as cores de fundo e borda existentes (usando variáveis de tema) */
     background-color: var(--card-background); /* #0D1622 no dark mode */

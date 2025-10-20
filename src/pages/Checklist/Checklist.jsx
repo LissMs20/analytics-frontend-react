@@ -1,5 +1,6 @@
-import React, { useState, useRef, useEffect } from 'react'; // Importamos useRef e useEffect
+import React, { useState, useRef, useEffect } from 'react';
 import Menu from '../../components/Menu/Menu';
+import SuccessModal from '../Checklist/SuccessModal'; // Importação do Modal de Sucesso
 import { createChecklist } from '../../api/api';
 import { useAuth } from '../../context/AuthProvider';
 import { PLACAS_PTH_SMD } from '../../data/PlacasPTH-SMD';
@@ -38,9 +39,13 @@ const Checklist = () => {
     const [searchQuery, setSearchQuery] = useState('');
     // NOVO ESTADO: Controla a visibilidade da lista de sugestões
     const [showSuggestions, setShowSuggestions] = useState(false);
-    
+
+    // NOVOS ESTADOS PARA O MODAL DE SUCESSO
+    const [showSuccessModal, setShowSuccessModal] = useState(false);
+    const [documentId, setDocumentId] = useState('');
+
     // Referência para o contêiner de pesquisa, para detectar cliques externos
-    const searchRef = useRef(null); 
+    const searchRef = useRef(null);
 
     // FUNÇÃO DE FILTRAGEM: Otimizada para o array de strings
     const filteredProducts = PLACAS_PTH_SMD.filter(produto =>
@@ -112,7 +117,7 @@ const Checklist = () => {
             setMessage("Para adicionar uma Falha, os campos 'Falha' e 'Setor Responsável' são obrigatórios.");
             return;
         }
-        
+
         // 2. Cria o objeto de falha a partir do formData
         const novaFalha = {
             falha: formData.falha,
@@ -174,7 +179,7 @@ const Checklist = () => {
 
         // 2. Estrutura dos dados de falha
         let falhasParaEnvio = [];
-        
+
         if (vaiParaAssistencia) {
             // Caso Assistência: Não há falhas detalhadas na produção
             falhasParaEnvio = [];
@@ -191,7 +196,7 @@ const Checklist = () => {
                     setLoading(false);
                     return;
                 }
-                
+
                 falhasParaEnvio.push({
                     falha: formData.falha,
                     localizacao_componente: formData.localizacao_componente || null,
@@ -201,13 +206,13 @@ const Checklist = () => {
                 });
             }
         }
-        
+
         // Adiciona as falhas no objeto de envio
         dataToSend.falhas = falhasParaEnvio;
-        
+
         // Limpa campos temporários do formData para evitar conflito com a API se 'falhas' for usado
         if (dataToSend.falhas.length > 0) {
-             delete dataToSend.falha; 
+             delete dataToSend.falha;
              delete dataToSend.localizacao_componente;
              delete dataToSend.lado_placa;
              delete dataToSend.setor;
@@ -217,10 +222,14 @@ const Checklist = () => {
 
         try {
             // Supondo que a API está pronta para receber o array 'falhas'
-            const response = await createChecklist(dataToSend); 
-            
-            // Limpeza e Sucesso
-            setMessage(`Checklist criado com sucesso! Documento ID: ${response.documento_id}. Status: ${response.status}.`);
+            const response = await createChecklist(dataToSend);
+
+            // Lógica do Modal de Sucesso
+            setDocumentId(response.documento_id || 'NC-00000'); // Pega o ID da resposta
+            setShowSuccessModal(true); // Abre o modal
+
+            // Limpeza dos campos
+            setMessage(`Checklist criado com sucesso!`); // Mensagem de sucesso simples
             setFormData(initialFormData);
             setFalhasAdicionadas([]); // Limpa as falhas
             setVaiParaAssistencia(false);
@@ -248,10 +257,10 @@ const Checklist = () => {
     return (
         <div className={styles['checklist-container']}>
             <Menu currentScreen="Checklist" />
-            
+
             <form onSubmit={handleSubmit} className={styles['checklist-form']}>
                 <h1>Registro de Defeito (Checklist)</h1>
-                
+
                 {message && (
                     <p className={`${styles['message-status']} ${messageClass}`}>
                         {message}
@@ -259,7 +268,6 @@ const Checklist = () => {
                 )}
 
                 {/* --- 1. FLUXO DE ASSISTÊNCIA (Cartão Roxo) --- */}
-                {/* ... (código do card 1 permanece o mesmo) ... */}
                 <div className={`${styles['checklist-form-card']} ${styles['assistance-flow-box']}`}>
                     <h2>Fluxo de Destino</h2>
                     <label className={styles['toggle-label-container']}>
@@ -271,7 +279,7 @@ const Checklist = () => {
                             className={styles['toggle-checkbox']}
                             id="assistencia-toggle"
                             // Desabilita o toggle se já houver falhas adicionadas
-                            disabled={falhasAdicionadas.length > 0} 
+                            disabled={falhasAdicionadas.length > 0}
                         />
                         <div className={styles['toggle-switch']}>
                             <span className={styles['toggle-slider']}></span>
@@ -282,16 +290,16 @@ const Checklist = () => {
                     </label>
                     <p className={styles['assistance-info']}>
                         Se marcado, os detalhes do defeito serão preenchidos pela Assistência depois.
-                        {falhasAdicionadas.length > 0 && 
+                        {falhasAdicionadas.length > 0 &&
                             <span className={styles['warning-text']}> (Desabilitado pois já há falhas adicionadas)</span>
                         }
                     </p>
                 </div>
 
                 {/* --- 2. INFORMAÇÕES DA PLACA (Cartão Principal) --- */}
-                <div className={`${styles['checklist-form-card']} ${showSuggestions && searchQuery.length > 0 && !isProductDisabled ? styles['z-index-raised'] : ''}`}> {/* <- MUDANÇA AQUI */}
+                <div className={`${styles['checklist-form-card']} ${showSuggestions && searchQuery.length > 0 && !isProductDisabled ? styles['z-index-raised'] : ''}`}>
                     <h2>Informações da Placa</h2>
-                    
+
                     <div className={styles['form-grid-2']}>
                         {/* CAMPO PRODUTO (Pesquisa/Lista Estilizada) */}
                         <div ref={searchRef} className={styles['product-search-container']}>
@@ -318,12 +326,12 @@ const Checklist = () => {
                                         &times; {/* Caractere HTML para 'x' */}
                                     </button>
                                 )}
-                                
+
                                 {showSuggestions && searchQuery.length > 0 && !isProductDisabled && filteredProducts.length > 0 && (
                                     <ul className={styles['suggestions-list']}>
                                         {filteredProducts.map((produto) => (
-                                            <li 
-                                                key={produto} 
+                                            <li
+                                                key={produto}
                                                 className={styles['suggestion-item']}
                                                 onClick={() => handleSelectProduct(produto)}
                                             >
@@ -340,7 +348,7 @@ const Checklist = () => {
                                 </p>
                             )}
                         </div>
-                        
+
                         {/* CAMPO QUANTIDADE */}
                         <label>
                             Quantidade:
@@ -358,10 +366,9 @@ const Checklist = () => {
                 </div>
 
                 {/* --- 3. DETALHES DO DEFEITO (Cartão com Desabilitação) --- */}
-                {/* ... (restante do código do formulário permanece o mesmo) ... */}
                 <div className={`${styles['checklist-form-card']} ${isDefeitoDisabled ? styles['card-disabled'] : ''}`}>
                     <h2>Detalhes do Defeito</h2>
-                    
+
                      {/* Linha 1: Falha e Setor (Obrigatórios) */}
                     <div className={styles['form-grid-2']}>
                         {/* CAMPO FALHA (SELECT) */}
@@ -380,7 +387,7 @@ const Checklist = () => {
                                 ))}
                             </select>
                         </label>
-                        
+
                         {/* CAMPO SETOR RESPONSÁVEL (SELECT) */}
                         <label className={isDefeitoDisabled ? styles['field-disabled'] : ''}>
                             Setor Responsável:
@@ -413,7 +420,7 @@ const Checklist = () => {
                                 disabled={isDefeitoDisabled}
                             />
                         </label>
-                        
+
                         {/* CAMPO LADO DA PLACA (SELECT) - Ocupa 1/3 */}
                         <label className={isDefeitoDisabled ? styles['field-disabled'] : ''}>
                             Lado da Placa:
@@ -440,9 +447,9 @@ const Checklist = () => {
 
                     {/* BOTÃO DE ADICIONAR FALHA */}
                     {!isDefeitoDisabled && (
-                        <button 
-                            type="button" 
-                            onClick={handleAddFalha} 
+                        <button
+                            type="button"
+                            onClick={handleAddFalha}
                             className={styles['add-falha-button']}
                             disabled={!formData.falha || !formData.setor}
                         >
@@ -451,9 +458,8 @@ const Checklist = () => {
                     )}
 
                 </div> {/* Fim do Cartão de Detalhes do Defeito */}
-                
+
                 {/* --- 4. LISTA DE FALHAS ADICIONADAS --- */}
-                {/* ... (código do card 4 permanece o mesmo) ... */}
                 {falhasAdicionadas.length > 0 && (
                     <div className={`${styles['checklist-form-card']} ${styles['added-falhas-card']}`}>
                         <h2>Falhas Adicionadas: {falhasAdicionadas.length}</h2>
@@ -466,8 +472,8 @@ const Checklist = () => {
                                         {falha.localizacao_componente && <p><strong>Localização:</strong> {falha.localizacao_componente}</p>}
                                         {falha.lado_placa && <p><strong>Lado:</strong> {falha.lado_placa}</p>}
                                     </div>
-                                    <button 
-                                        type="button" 
+                                    <button
+                                        type="button"
                                         onClick={() => handleRemoveFalha(index)}
                                         className={styles['remove-falha-button']}
                                     >
@@ -478,12 +484,19 @@ const Checklist = () => {
                         </ul>
                     </div>
                 )}
-                
+
                 {/* --- BOTÃO DE SUBMISSÃO FINAL --- */}
                 <button type="submit" disabled={loading} className={styles['submit-button']}>
                     {loading ? 'Salvando...' : 'Salvar Checklist'}
                 </button>
             </form>
+
+            {/* MODAL DE SUCESSO INTEGRADO */}
+            <SuccessModal
+                show={showSuccessModal}
+                onClose={() => setShowSuccessModal(false)}
+                documentId={documentId}
+            />
 
         </div>
     );
